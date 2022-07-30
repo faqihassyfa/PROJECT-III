@@ -1,0 +1,26 @@
+name: Deploy to aws
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing deploy to server using ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /home/ubuntu/PROJECT-III
+            git pull origin main
+            docker stop containerProject3
+            docker rm containerProject3
+            docker rmi project3-api
+            docker build -t project3-api:latest .
+            docker run -d -p 80:8080 --name containerProject3 project3-api:latest
