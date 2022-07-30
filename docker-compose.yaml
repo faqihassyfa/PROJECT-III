@@ -1,0 +1,23 @@
+services:
+  mysqlData:
+    image: mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    
+    ports:
+      - 3307:3306
+
+
+  be10app:
+    image: <namaimagescontainer>
+    environment:
+      DBusername: "root"
+      DBpassword: "asd12345"
+      DBhost: "localhost"
+      DBport: 3306
+      DBname: "redb"
+      SECRET: "pr0j3ct"
+      SERVERPORT: 8080
+    restart: always
+    ports:
+      - 8000:8080
