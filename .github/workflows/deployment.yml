@@ -17,7 +17,8 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /PROJECT-III/PROJECT-III
+            cd PROJECT-III
+            cd PROJECT-III
             git pull origin main
             docker stop containerProject3
             docker rm containerProject3
