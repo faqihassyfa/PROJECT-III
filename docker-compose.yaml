@@ -8,12 +8,12 @@ services:
       - 3307:3306
 
 
-  be10app:
-    image: <namaimagescontainer>
+  project3app:
+    image: red95f1/project3play
     environment:
       DBusername: "root"
       DBpassword: "asd12345"
-      DBhost: "localhost"
+      DBhost: "redb.cp9rftl8u3wq.ap-southeast-1.rds.amazonaws.com"
       DBport: 3306
       DBname: "redb"
       SECRET: "pr0j3ct"
