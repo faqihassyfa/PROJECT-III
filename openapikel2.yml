@@ -17,8 +17,12 @@ tags:
     description: Authentication
   - name: Users
     description: User data management
+  - name: Admins
+    description: Admins data management
   - name: Clothes
     description: Clothes data management
+  - name: Orders
+    description: User data management
 paths:
   /login:
     post:
@@ -46,7 +50,7 @@ paths:
                 }
       responses:
         '200':
-          description: Success Response
+          description: Success
           content:
             application/json:
               schema:
@@ -55,38 +59,31 @@ paths:
                 responseData1:
                   description: response success 1
                   value: {
-              
+                    code: 200,
                     message: "Login Success",
-                    data: {
-                      "user_id": 1,
-                      "user_name": "mba cin",
-                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co"
-                    }
-                  }
-                responseData2:
-                  description: response success 2
-                  value: {
-                    "message": "Login Success",
-                    "data": {
-                      user_id: 2,
-                      user_name: "vanili cahyo",
-                      token: "AyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co"
-                    }
+                    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co"
                   }
         '400':
-          description: Failed Response
+          description: Bad Request
           content:
             application/json:
               examples:
                 responseData1:
                   description: response failed 1
                   value: {
-                    message: "email or password incorrect"
+                    code: 400,
+                    message: "Wrong username or password",
                   }
-                responseData2:
-                  description: response failed 2
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
                   value: {
-                    message: "email or password incorrect"
+                    code: 500,
+                    message: "There is an error in internal server",
                   }
   /users:
     post:
@@ -103,69 +100,66 @@ paths:
               userData1:
                 description: "Example data  user 1"
                 value: {
-                  email: "mba cin@gmail.com",
+                  email: "mbacincin@gmail.com",
                   password: "mbacin123",
                   address: "Jln. Baru No.4, Jakarta - Indonesia",
                   phone: "08123247689",
                 }
-              userData2:
-                description: "Example data  user 2"
-                value: {
-                  email: "vanilicahya@gmail.com",
-                  password: "vanili123",
-                  address: "Jln. Lama No.5, Jakarta - Indonesia",
-                  phone: "082000123321",
-                }
       responses:
         '200':
-          description: Success Response
+          description: Success
           content:
             multipart/form-data:
               examples:
                 responseData1:
                   description: response success 1
                   value: {
-                    message: "success to insert data",
-                  }
-                responseData2:
-                  description: response success 2
-                  value: {
+                    code: 200,
                     message: "success to insert data",
                   }
         '400':
-          description: Failed Response
+          description: Bad Request
           content:
             multipart/form-data:
               examples:
                 responseData1:
                   description: response failed 1
                   value: {
-                    message: "all input data must be filled",
+                    code: 400,
+                    message: "Wrong input",
                   }
-                responseData2:
-                  description: response failed 2
+        '404':
+          description: Data Not Found
+          content:
+            multipart/form-data:
+              examples:
+                responseData1:
+                  description: response failed 1
                   value: {
-                    message: "all input data must be filled",
+                    code: 404,
+                    message: "Data not found",
                   }
-  /users/{iduser}:
+        '500':
+          description: Internal Server Error
+          content:
+            multipart/form-data:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 500,
+                    message: "There is an error in internal server",
+                  }
     get:
       tags:
         - Users
-      summary: for get User By Id
+      summary: for get User profile 
       description: Bisa diaplikasikan ketika user ingin melihat profilnya
       security:
         - JWTAuth: []
-      parameters:
-        - in: path
-          name: ID
-          required: true
-          schema:
-            type: number
-            example: 1
-          description: user_id
       responses:
         '200':
-          description: Success Response
+          description: Success
           content:
             application/json:
               schema:
@@ -174,51 +168,50 @@ paths:
                 responseData1:
                   description: response success 1
                   value: {
-              
+                    code: 200,
                     message: "success",
                     data: {
-                     "id"     : 1,
-                     "name": "mba cin",
-                     "email": "mbacin@gmail.com",
-                     "address:": "Jln. Baru No.4, Jakarta - Indonesia",
-                     "phone": "08123247689",
+                     name: "Cindy",
+                     email: "mbacin@gmail.com",
+                     address: "Jln. Baru No.4, Jakarta - Indonesia",
+                     phone: "08123247689",
                     },
-                    my order history: { #Belum Fix
-                     -id_order     : 1,
-                      "product_name": "T-Shirt",
-                      "created_at": "2022-12-12",
-                    }
+                    my order history:
+                      {
+                        idorder: 1,
+                        name: "Spongebob T-Shirt in White",
+                        "created_at": "2022-12-12",
+                      }
                   }
-        '400':
-          description: Failed Response
+        '404':
+          description: Data Not Found
           content:
             application/json:
               examples:
                 responseData1:
                   description: response success 1
                   value: {
-                    message: "Bad Request",
+                    code: 404,
+                    message: "Data not found",
                   }
-                responseData2:
-                  description: response success 2
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
                   value: {
-                    message: "Bad Request",
+                    code: 500,
+                    message: "There is an error in internal server",
                   }
     put:
       tags:
         - Users
-      summary: for put User By Id
+      summary: for put User
       description: Bisa diaplikasikan ketika user ingin update profilnya & semua field tidak boleh kosong
       security:
         - JWTAuth: []    
-      parameters:
-        - in: path
-          name: iduser
-          required: true
-          schema:
-            type: number
-            example: 1
-          description: user_id
       requestBody:
         content:
           multipart/form-data:
@@ -228,119 +221,108 @@ paths:
               userData1:
                 description: "Example data  user 1"
                 value: {
-                  username: "andri gunawan",
+                  name: "andri gunawan",
                   email: "andrigunawan@gmail.com",
-                  password: "andri12",
-                  alamat: "Jln. Baru No.4, Jakarta - Indonesia",
-                  notelp: "08123247689",
-                  file: profile3.jpg
-                }
-              userData2:
-                description: "Example data  user 2"
-                value: {
-                  username: "cahyo",
-                  email: "cahyo@gmail.com",
-                  password: "cahyo12",
-                  alamat: "Jln. Lama No.5, Jakarta - Indonesia",
-                  notelp: "082000123321",
-                  file: "profile4.jpg"
+                  address: "Jln. Baru No.4, Jakarta - Indonesia",
+                  phone: "08123247689",
                 }
       responses:
         '200':
-          description: Success Response
+          description: Success
           content:
             application/json:
               examples:
                 responseData1:
                   description: response success 1
                   value: {
-                    message: "success to insert data",
-                  }
-                responseData2:
-                  description: response success 2
-                  value: {
+                    code: 200,
                     message: "success to insert data",
                   }
         '400':
-          description: Failed Response
+          description: Bad Request
           content:
             application/json:
               examples:
                 responseData1:
                   description: response success 1
                   value: {
-                    message: "failed to update data",
+                    code: 400,
+                    message: "Wrong Input",
                   }
-                responseData2:
-                  description: response success 2
+        '404':
+          description: Data Not Found
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
                   value: {
-                    message: "failed to update data",
+                    code: 404,
+                    message: "Data Not Found",
+                  }
+        '500':
+          description: Internal server Error
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 500,
+                    message: "Internal server Error",
                   }
 
     delete:
       tags:
         - Users
-      summary: for delete User By Id
+      summary: for delete User
       description: Bisa diaplikasikan ketika user ingin melihat profilnya
       security:
         - JWTAuth: []
-      parameters:
-        - in: path
-          name: iduser
-          required: true
-          schema:
-            type: number
-            example: 1
-          description: user_id
       responses:
         '200':
-          description: Success Response
+          description: Success
           content:
             application/json:
               examples:
                 responseData1:
                   description: response success 1
                   value: {
+                    code: 200,
                     message: "success to delete",
                   }
-        '400':
-          description: Failed Response
+        '404':
+          description: Data Not Found
           content:
             application/json:
               examples:
                 responseData1:
                   description: response failed 1
                   value: {
-                    message: "Bad Request",
+                    code: 404,
+                    message: "Data Not Found",
                   }
-                responseData2:
-                  description: response failed 2
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
                   value: {
-                    message: "Bad Request",
+                    code: 500,
+                    message: "Internal server Error",
                   }
-  /clothes:
+  /admins:
     get:
       tags:
-        - Clothes
+        - Admins
       description: Get All Clothes
-      # parameters:
-      #   - in: path
-      #     name: limit
-      #     required: true
-      #     schema:
-      #       type: number
-      #       example: 1
-      #     description: limit
-      #   - in: path
-      #     name: offset
-      #     required: true
-      #     schema:
-      #       type: number
-      #       example: 1
-      #     description: offset
+      security:
+        - JWTAuth: []
       responses:
         '200':
-          description: Success Response get all clothes
+          description: Success
           content:
             application/json:
               schema:
@@ -349,29 +331,41 @@ paths:
                 responseData1:
                   description: response success 1
                   value: {
-
+                    code: 200,
                     message: "success",
                     data: [{
-                      id: 1,
                       name: "Black T-Shirt",
                       price: 150000,
-                      image: ".jpg",
-                      description: "T-Shirt for men",
+                    },{
+                      name: "Blue T-Shirt",
+                      price: 150000,
                     }]
                   }
-        '500':
-          description: Cannot get all clothes
+        '404':
+          description: Data Not Found
           content:
             application/json:
               examples:
                 responseData1:
                   description: response failed 1
                   value: {
-                   "message" : "failed to get all clothes",
+                    code: 404,
+                    message : "Data Not Found",
                   }
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 500,
+                    message : "Data Not Found",
+                  }  
     post:
       tags:
-        - clothes
+        - Admins
       description: Add new Clothes
       security:
         - JWTAuth: []
@@ -392,28 +386,53 @@ paths:
                         }
       responses:
         '200':
-          description: Success Response
+          description: Success
           content:
             multipart/form-data:
               examples:
                 responseData1:
                   description: response success 1
                   value: {
+                    code: 200,
                     message: "success to insert clothes",
                   }
         '400':
-          description: Failed Response
+          description: Bad Request
           content:
             multipart/form-data:
               examples:
                 responseData1:
                   description: response failed 1
                   value: {
-                    message: "all input data must be filled",
+                    code: 400,
+                    message: "Wrong input",
                   }
+        '404':
+          description: Data Not Found
+          content:
+            multipart/form-data:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 404,
+                    message: "Wrong input",
+                  }  
+        '500':
+          description: Internal Server Error
+          content:
+            multipart/form-data:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "There is an error in internal server",
+                  }
+  /admins/{productid}:  
     delete:
       tags:
-        - Clothes
+        - Admins
       description: Delete Clothes by id clothes
       security:
         - JWTAuth: []
@@ -424,7 +443,7 @@ paths:
           schema:
             type: number
             example: 1
-          description: ID Clothes
+          description: ID Clothes  
       responses:
         '200':
           description: Success Response
@@ -434,21 +453,32 @@ paths:
                 responseData1:
                   description: response success 1
                   value: {
+                    code: 200,
                     message: "success delete data",
                   }
-        '400':
-          description: Failed Response
+        '404':
+          description: Data Not Found
           content:
             application/json:
               examples:
                 responseData1:
                   description: response failed 1
                   value: {
-                    message: "Bad Request",
+                    message: "Data not found",
                   } 
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    message: "There is an error in internal server",
+                  }           
     put:
       tags:
-        - Clothes
+        - Admins
       description: Update Clothes by id clothes
       security:
         - JWTAuth: []     
@@ -484,6 +514,7 @@ paths:
                 responseData1:
                   description: response success 1
                   value: {
+                    code: 200,
                     message: "success update data",
                   }
         '400':
@@ -494,8 +525,187 @@ paths:
                 responseData1:
                   description: response success 1
                   value: {
+                    code: 200,
                     message: "Bad Request",
-                  }                
+                  }     
+  /admins/history:
+    get:
+      tags:
+        - Admins
+      description: Get All History Orders
+      security:
+        - JWTAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseAllClothesSuccess'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "success",
+                    orders: [{
+                      idorder: 1,
+                      name: "Black T-Shirt",
+                      created_at: "2022/08/21",
+                      totalprice: 150000,
+                    },{
+                      idorder: 1,
+                      name: "Blue T-Shirt",
+                      created_at: "2022/08/21",
+                      price: 150000,
+                    }]
+                  }
+        '404':
+          description: Data Not Found
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 404,
+                    message : "Data Not Found",
+                  }
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 500,
+                    message : "Data Not Found",
+                  }     
+  /clothes:
+    get:
+      tags:
+        - Clothes
+      description: Get All Clothes Data
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseAllClothesSuccess'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "success",
+                    orders: [{
+                      name: "Black T-Shirt",
+                      price: 150000,
+                      foto: ".jpg",
+                    },{
+                      name: "Blue T-Shirt",
+                      price: 150000,
+                      foto: ".jpg",
+                    }]
+                  }
+        '404':
+          description: Data Not Found
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 404,
+                    message : "Data Not Found",
+                  }
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 500,
+                    message : "Data Not Found",
+                  }
+  /orders:
+    post:
+      tags:
+        - Orders
+      security:
+        - JWTAuth: []
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#"
+            example:
+                {
+              summary: {
+                foto: ".jpg",
+                name: "Black T-Shirt",
+                qty: 1,
+                stock: 5,
+                price: 150000,
+                  },
+              payment: {
+                payment_method: "BCA Transfer",
+                card_number: "1111-1111-1111-1111",
+                card_holder: "Ibu yang punya toko"
+                  }
+                }
+                        
+      responses:
+        '200':
+          description: Success
+          content:
+            multipart/form-data:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 200,
+                    message: "success order",
+                  }
+        '400':
+          description: Bad Request
+          content:
+            multipart/form-data:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Wrong input",
+                  }
+        '404':
+          description: Data Not Found
+          content:
+            multipart/form-data:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 404,
+                    message: "Data Not Found",
+                  }  
+        '500':
+          description: Internal Server Error
+          content:
+            multipart/form-data:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 500,
+                    message: "There is an error in internal server",
+                  }
+
 components:
   securitySchemes:
     JWTAuth:
@@ -640,4 +850,20 @@ components:
           minLength: 1
         "description":
           type: string
+          minLength: 1
+
+    requestOrder:
+      type: object
+      properties:
+        "image":
+          type: string
+          minLength: 1
+        "name":
+          type: string
+          minLength: 1
+        "stock":
+          type: number
+          minLength: 1
+        "price":
+          type: number
           minLength: 1
