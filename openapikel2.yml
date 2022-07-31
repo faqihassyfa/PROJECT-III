@@ -1,0 +1,643 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/faqihassyfa/Project3/1.0.0
+info:
+  description: This is a simple API
+  version: "1.0.0"
+  title: Simple Inventory API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: Auth
+    description: Authentication
+  - name: Users
+    description: User data management
+  - name: Clothes
+    description: Clothes data management
+paths:
+  /login:
+    post:
+      tags:
+        - Auth
+      summary: login user
+      description: Login user bisa digunakan ketika user sudah registrasi
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/requestLogin'
+            examples:
+              userData1:
+                description: "Example data  user 1"
+                value: {
+                  email: "mbacin@gmail.com",
+                  password: "mbacin123"
+                }
+              userData2:
+                description: "Example data  user 2"
+                value: {
+                  email: "vanilicahya@gmail.com",
+                  password: "Cahya12"
+                }
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseLoginSuccess'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+              
+                    message: "Login Success",
+                    data: {
+                      "user_id": 1,
+                      "user_name": "mba cin",
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co"
+                    }
+                  }
+                responseData2:
+                  description: response success 2
+                  value: {
+                    "message": "Login Success",
+                    "data": {
+                      user_id: 2,
+                      user_name: "vanili cahyo",
+                      token: "AyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co"
+                    }
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    message: "email or password incorrect"
+                  }
+                responseData2:
+                  description: response failed 2
+                  value: {
+                    message: "email or password incorrect"
+                  }
+  /users:
+    post:
+      tags:
+        - Users
+      summary: Registration User
+      description: Saat registrasi user harus input semua field
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/requestRegister'
+            examples:
+              userData1:
+                description: "Example data  user 1"
+                value: {
+                  email: "mba cin@gmail.com",
+                  password: "mbacin123",
+                  address: "Jln. Baru No.4, Jakarta - Indonesia",
+                  phone: "08123247689",
+                }
+              userData2:
+                description: "Example data  user 2"
+                value: {
+                  email: "vanilicahya@gmail.com",
+                  password: "vanili123",
+                  address: "Jln. Lama No.5, Jakarta - Indonesia",
+                  phone: "082000123321",
+                }
+      responses:
+        '200':
+          description: Success Response
+          content:
+            multipart/form-data:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    message: "success to insert data",
+                  }
+                responseData2:
+                  description: response success 2
+                  value: {
+                    message: "success to insert data",
+                  }
+        '400':
+          description: Failed Response
+          content:
+            multipart/form-data:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    message: "all input data must be filled",
+                  }
+                responseData2:
+                  description: response failed 2
+                  value: {
+                    message: "all input data must be filled",
+                  }
+  /users/{iduser}:
+    get:
+      tags:
+        - Users
+      summary: for get User By Id
+      description: Bisa diaplikasikan ketika user ingin melihat profilnya
+      security:
+        - JWTAuth: []
+      parameters:
+        - in: path
+          name: ID
+          required: true
+          schema:
+            type: number
+            example: 1
+          description: user_id
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseGetUserSuccess'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+              
+                    message: "success",
+                    data: {
+                     "id"     : 1,
+                     "name": "mba cin",
+                     "email": "mbacin@gmail.com",
+                     "address:": "Jln. Baru No.4, Jakarta - Indonesia",
+                     "phone": "08123247689",
+                    },
+                    my order history: { #Belum Fix
+                     -id_order     : 1,
+                      "product_name": "T-Shirt",
+                      "created_at": "2022-12-12",
+                    }
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    message: "Bad Request",
+                  }
+                responseData2:
+                  description: response success 2
+                  value: {
+                    message: "Bad Request",
+                  }
+    put:
+      tags:
+        - Users
+      summary: for put User By Id
+      description: Bisa diaplikasikan ketika user ingin update profilnya & semua field tidak boleh kosong
+      security:
+        - JWTAuth: []    
+      parameters:
+        - in: path
+          name: iduser
+          required: true
+          schema:
+            type: number
+            example: 1
+          description: user_id
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/requestUpdate'
+            examples:
+              userData1:
+                description: "Example data  user 1"
+                value: {
+                  username: "andri gunawan",
+                  email: "andrigunawan@gmail.com",
+                  password: "andri12",
+                  alamat: "Jln. Baru No.4, Jakarta - Indonesia",
+                  notelp: "08123247689",
+                  file: profile3.jpg
+                }
+              userData2:
+                description: "Example data  user 2"
+                value: {
+                  username: "cahyo",
+                  email: "cahyo@gmail.com",
+                  password: "cahyo12",
+                  alamat: "Jln. Lama No.5, Jakarta - Indonesia",
+                  notelp: "082000123321",
+                  file: "profile4.jpg"
+                }
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    message: "success to insert data",
+                  }
+                responseData2:
+                  description: response success 2
+                  value: {
+                    message: "success to insert data",
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    message: "failed to update data",
+                  }
+                responseData2:
+                  description: response success 2
+                  value: {
+                    message: "failed to update data",
+                  }
+
+    delete:
+      tags:
+        - Users
+      summary: for delete User By Id
+      description: Bisa diaplikasikan ketika user ingin melihat profilnya
+      security:
+        - JWTAuth: []
+      parameters:
+        - in: path
+          name: iduser
+          required: true
+          schema:
+            type: number
+            example: 1
+          description: user_id
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    message: "success to delete",
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    message: "Bad Request",
+                  }
+                responseData2:
+                  description: response failed 2
+                  value: {
+                    message: "Bad Request",
+                  }
+  /clothes:
+    get:
+      tags:
+        - Clothes
+      description: Get All Clothes
+      # parameters:
+      #   - in: path
+      #     name: limit
+      #     required: true
+      #     schema:
+      #       type: number
+      #       example: 1
+      #     description: limit
+      #   - in: path
+      #     name: offset
+      #     required: true
+      #     schema:
+      #       type: number
+      #       example: 1
+      #     description: offset
+      responses:
+        '200':
+          description: Success Response get all clothes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseAllClothesSuccess'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+
+                    message: "success",
+                    data: [{
+                      id: 1,
+                      name: "Black T-Shirt",
+                      price: 150000,
+                      image: ".jpg",
+                      description: "T-Shirt for men",
+                    }]
+                  }
+        '500':
+          description: Cannot get all clothes
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                   "message" : "failed to get all clothes",
+                  }
+    post:
+      tags:
+        - clothes
+      description: Add new Clothes
+      security:
+        - JWTAuth: []
+      requestBody:
+            content:
+              multipart/form-data:
+                schema:
+                  $ref: '#/components/schemas/requestClothes'
+                examples:
+                  bookData1:
+                    description: "Example clothes input"
+                    value: {
+                        name: "Black T-Shirt",
+                        price: 150000,
+                        stock: 3,
+                        image: "download1.jpg",
+                        description: "This T-Shirt is for Men"
+                        }
+      responses:
+        '200':
+          description: Success Response
+          content:
+            multipart/form-data:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    message: "success to insert clothes",
+                  }
+        '400':
+          description: Failed Response
+          content:
+            multipart/form-data:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    message: "all input data must be filled",
+                  }
+    delete:
+      tags:
+        - Clothes
+      description: Delete Clothes by id clothes
+      security:
+        - JWTAuth: []
+      parameters:
+        - in: path
+          name: ID
+          required: true
+          schema:
+            type: number
+            example: 1
+          description: ID Clothes
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    message: "success delete data",
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    message: "Bad Request",
+                  } 
+    put:
+      tags:
+        - Clothes
+      description: Update Clothes by id clothes
+      security:
+        - JWTAuth: []     
+      parameters:
+        - in: path
+          name: ID
+          required: true
+          schema:
+            type: number
+            example: 1
+          description: ID Clothes
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/requestUpdateClothes'
+            examples:
+              userData1:
+                description: "Example data  user 1"
+                value: {
+                        name: "Black T-Shirt",
+                        price: 130000,
+                        stock: 3,
+                        image: "download2.jpg",
+                        description: "T Shirt for men"
+                        }
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    message: "success update data",
+                  }
+        '400':
+          description: Failed Response
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    message: "Bad Request",
+                  }                
+components:
+  securitySchemes:
+    JWTAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "use Token"
+  schemas:
+    requestLogin:
+      type: object
+      properties:
+        "email":
+          type: string
+          minLength: 1
+        "password":
+          type: string
+          minLength: 1
+
+    responseLoginSuccess:
+      type: object
+      properties: {
+        
+        "message": {
+          type: string
+        },
+        "data":{
+          type: object
+        }
+      }
+
+    requestRegister:
+      type: object
+      properties:
+        "name":
+          type: string
+          minLength: 1
+        "email":
+          type: string
+          minLength: 1
+        "password":
+          type: string
+          minLength: 1
+        "address":
+          type: string
+          minLength: 1
+        "phone":
+          type: string
+          minLength: 1
+
+
+    responseGetUserSuccess:
+      type: object
+      properties: {
+        
+        "message": {
+          type: string
+        },
+        "data":{
+          type: object
+        }
+      }
+
+    requestUpdate:
+      type: object
+      properties:
+        "username":
+          type: string
+          minLength: 1
+        "password":
+          type: string
+          minLength: 1
+        "email":
+          type: string
+          minLength: 1
+        "alamat":
+          type: string
+          minLength: 1
+        "notelp":
+          type: string
+          minLength: 1
+        "file":
+          type: string
+          minLength: 1
+
+    requestClothes:
+      type: object
+      properties:
+        "name":
+          type: string
+          minLength: 1
+        "price":
+          type: number
+          minLength: 1
+        "stock":
+          type: number
+          minLength: 1
+        "image":
+          type: string
+          minLength: 1
+        "description":
+          type: string
+          minLength: 1
+
+    responseAllClothesSuccess:
+      type: object
+      properties: {
+
+        "message": {
+          type: string
+          },
+          "data":{
+            type: object
+          }
+      }
+
+    responseClothesSuccess:
+      type: object
+      properties: {
+      
+        "message": {
+          type: string
+          },
+          "data":{
+            type: object
+            }
+      }
+
+    requestUpdateClothes:
+      type: object
+      properties:
+        "name":
+          type: string
+          minLength: 1
+        "price":
+          type: number
+          minLength: 1
+        "stock":
+          type: number
+          minLength: 1
+        "image":
+          type: string
+          minLength: 1
+        "description":
+          type: string
+          minLength: 1
