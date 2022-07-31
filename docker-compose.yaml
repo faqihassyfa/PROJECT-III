@@ -13,7 +13,7 @@ services:
     environment:
       DBusername: "root"
       DBpassword: "asd12345"
-      DBhost: "redb.cp9rftl8u3wq.ap-southeast-1.rds.amazonaws.com"
+      DBhost: "localhost"
       DBport: 3306
       DBname: "redb"
       SECRET: "pr0j3ct"
