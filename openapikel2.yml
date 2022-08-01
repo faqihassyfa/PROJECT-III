@@ -58,11 +58,13 @@ paths:
               examples:
                 responseData1:
                   description: response success 1
-                  value: {
-                    code: 200,
-                    message: "Login Success",
-                    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co"
-                  }
+                  value:
+                    code: 200
+                    message: Login Success
+                    data:
+                      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MzgzMjYxODAsInVzZXJJZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9.AebFR-oQjUSOMez2ucDWkiMrS2eQIPmcYm5c71qZ_co
+                      roles: user
+                  
         '400':
           description: Bad Request
           content:
@@ -167,22 +169,15 @@ paths:
               examples:
                 responseData1:
                   description: response success 1
-                  value: {
-                    code: 200,
-                    message: "success",
-                    data: {
-                     name: "Cindy",
-                     email: "mbacin@gmail.com",
-                     address: "Jln. Baru No.4, Jakarta - Indonesia",
-                     phone: "08123247689",
-                    },
-                    my order history:
-                      {
-                        idorder: 1,
-                        name: "Spongebob T-Shirt in White",
-                        "created_at": "2022-12-12",
-                      }
-                  }
+                  value:
+                    code: 200
+                    message: success
+                    data:
+                     name: Cindy
+                     email: mbacin@gmail.com
+                     address: Jln. Baru No.4, Jakarta - Indonesia
+                     phone: "08123247689"
+                
         '404':
           description: Data Not Found
           content:
@@ -334,9 +329,11 @@ paths:
                     code: 200,
                     message: "success",
                     data: [{
+                      id: 1,
                       name: "Black T-Shirt",
                       price: 150000,
                     },{
+                      id: 2,
                       name: "Blue T-Shirt",
                       price: 150000,
                     }]
@@ -429,7 +426,7 @@ paths:
                     code: 400,
                     message: "There is an error in internal server",
                   }
-  /admins/{productid}:  
+  /admins/{clothes_id}:  
     delete:
       tags:
         - Admins
@@ -438,7 +435,7 @@ paths:
         - JWTAuth: []
       parameters:
         - in: path
-          name: ID
+          name: clothes_id
           required: true
           schema:
             type: number
@@ -484,12 +481,12 @@ paths:
         - JWTAuth: []     
       parameters:
         - in: path
-          name: ID
+          name: clothes_id
           required: true
           schema:
             type: number
             example: 1
-          description: ID Clothes
+          description: clothes id
       requestBody:
         content:
           multipart/form-data:
@@ -550,12 +547,10 @@ paths:
                     message: "success",
                     orders: [{
                       idorder: 1,
-                      name: "Black T-Shirt",
                       created_at: "2022/08/21",
                       totalprice: 150000,
                     },{
                       idorder: 1,
-                      name: "Blue T-Shirt",
                       created_at: "2022/08/21",
                       price: 150000,
                     }]
@@ -597,19 +592,19 @@ paths:
               examples:
                 responseData1:
                   description: response success 1
-                  value: {
-                    code: 200,
-                    message: "success",
-                    orders: [{
-                      name: "Black T-Shirt",
-                      price: 150000,
-                      foto: ".jpg",
-                    },{
-                      name: "Blue T-Shirt",
-                      price: 150000,
-                      foto: ".jpg",
-                    }]
-                  }
+                  value:
+                    code: 200
+                    message: success
+                    data:
+                      - name: Black T-Shirt
+                        price: 150000
+                        foto: .jpg
+                    
+                      - name: Blue T-Shirt
+                        price: 150000
+                        foto: ".jpg"
+                    
+                
         '404':
           description: Data Not Found
           content:
@@ -645,20 +640,26 @@ paths:
             schema:
               $ref: "#"
             example:
-                {
-              summary: {
-                foto: ".jpg",
-                name: "Black T-Shirt",
-                qty: 1,
-                stock: 5,
-                price: 150000,
-                  },
-              payment: {
-                payment_method: "BCA Transfer",
-                card_number: "1111-1111-1111-1111",
-                card_holder: "Ibu yang punya toko"
-                  }
-                }
+              summary:
+                - productid: 1
+                  foto: .jpg
+                  name: Black T-Shirt
+                  qty: 1
+                  stock: 1
+                  price: 150000
+                - productid: 2
+                  foto: .jpg
+                  name: Red T-Shirt
+                  qty: 1
+                  stock: 1
+                  price: 150000
+                  
+              payment:
+                totalprice: 300000
+                payment_method: BCA Transfer
+                card_number: 1111-1111-1111-1111
+                card_holder: Ibu yang punya toko
+                  
                         
       responses:
         '200':
@@ -672,6 +673,70 @@ paths:
                     code: 200,
                     message: "success order",
                   }
+        '400':
+          description: Bad Request
+          content:
+            multipart/form-data:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 400,
+                    message: "Wrong input",
+                  }
+        '404':
+          description: Data Not Found
+          content:
+            multipart/form-data:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 404,
+                    message: "Data Not Found",
+                  }  
+        '500':
+          description: Internal Server Error
+          content:
+            multipart/form-data:
+              examples:
+                responseData1:
+                  description: response failed 1
+                  value: {
+                    code: 500,
+                    message: "There is an error in internal server",
+                  }
+    get:
+      tags:
+        - Orders
+      security:
+        - JWTAuth: []
+   
+      responses:
+        '200':
+          description: Success
+          content:
+            multipart/form-data:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: 
+                    code: 200
+                    message: success order
+                    orderid: 1
+                    data:
+                      - productid: 1
+                        name: T-Shirt Army
+                        qty: 1
+                        price: 150000
+                      - productid: 2
+                        name: T-Shirt Red
+                        qty: 1
+                        price: 150000
+                    totalprice: 300000
+
+                  
+                  
         '400':
           description: Bad Request
           content:
@@ -771,22 +836,19 @@ components:
     requestUpdate:
       type: object
       properties:
-        "username":
-          type: string
-          minLength: 1
-        "password":
+        "name":
           type: string
           minLength: 1
         "email":
           type: string
           minLength: 1
-        "alamat":
+        "password":
           type: string
           minLength: 1
-        "notelp":
+        "address":
           type: string
           minLength: 1
-        "file":
+        "phone":
           type: string
           minLength: 1
 
@@ -821,17 +883,6 @@ components:
           }
       }
 
-    responseClothesSuccess:
-      type: object
-      properties: {
-      
-        "message": {
-          type: string
-          },
-          "data":{
-            type: object
-            }
-      }
 
     requestUpdateClothes:
       type: object
@@ -850,20 +901,4 @@ components:
           minLength: 1
         "description":
           type: string
-          minLength: 1
-
-    requestOrder:
-      type: object
-      properties:
-        "image":
-          type: string
-          minLength: 1
-        "name":
-          type: string
-          minLength: 1
-        "stock":
-          type: number
-          minLength: 1
-        "price":
-          type: number
           minLength: 1
