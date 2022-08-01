@@ -16,6 +16,9 @@ type AppConfig struct {
 	Port     int
 	Username string
 	Password string
+	Keys3    string
+	Secrets3 string
+	Regions3 string
 }
 
 var lock = &sync.Mutex{}
@@ -34,7 +37,7 @@ func GetConfig() *AppConfig {
 
 func initConfig() *AppConfig {
 	var defaultConfig AppConfig
-	err := godotenv.Load(".env")
+	err := godotenv.Load("local.env")
 
 	if err != nil {
 		log.Fatal("Cannot read configuration")
@@ -57,6 +60,9 @@ func initConfig() *AppConfig {
 		return nil
 	}
 	defaultConfig.Port = cnv
+	defaultConfig.Keys3 = os.Getenv("Keys3")
+	defaultConfig.Secrets3 = os.Getenv("Secrets3")
+	defaultConfig.Regions3 = os.Getenv("Regions3")
 
 	return &defaultConfig
 }
