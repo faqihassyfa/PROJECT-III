@@ -33,8 +33,10 @@ type UserHandler interface {
 
 type UserUseCase interface {
 	RegisterUser(newuser User, IDuser int) int
+	LoginUser(authData LoginAuth) (data map[string]interface{}, err error)
 }
 
 type UserData interface {
 	RegisterData(newuser User) User
+	LoginData(authData LoginAuth) (data map[string]interface{}, err error)
 }

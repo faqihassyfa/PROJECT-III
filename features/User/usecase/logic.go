@@ -37,3 +37,8 @@ func (uuc *userUserCase) RegisterUser(newuser domain.User, IDuser int) int {
 	}
 	return 200
 }
+
+func (uuc *userUserCase) LoginUser(authData domain.LoginAuth) (data map[string]interface{}, err error) {
+	data, err = uuc.userData.LoginData(authData)
+	return data, err
+}
