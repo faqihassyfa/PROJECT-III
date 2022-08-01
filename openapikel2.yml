@@ -308,6 +308,62 @@ paths:
                     code: 500,
                     message: "Internal server Error",
                   }
+
+  /user/order:
+     get:
+      tags:
+        - Users
+      summary: for get User profile 
+      description: Bisa diaplikasikan ketika user ingin melihat profilnya
+      security:
+        - JWTAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseGetUserSuccess'
+              examples:
+                responseData1:
+                  description: response success 1
+                  value:
+                    code: 200
+                    message: success
+                    my order history:
+                    - orderid: 1
+                      date: 12-07-2022
+                      totalprice: 300000
+                    - orderid: 2
+                      date: 12-07-2022
+                      totalprice: 300000
+                    - orderid: 3
+                      date: 13-07-2022
+                      totalprice: 300000
+
+                
+        '404':
+          description: Data Not Found
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 404,
+                    message: "Data not found",
+                  }
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              examples:
+                responseData1:
+                  description: response success 1
+                  value: {
+                    code: 500,
+                    message: "There is an error in internal server",
+                  } 
   /admins:
     get:
       tags:
@@ -328,13 +384,15 @@ paths:
                   value: {
                     code: 200,
                     message: "success",
-                    data: [{
+                    all product: [{
                       id: 1,
                       name: "Black T-Shirt",
+                      stock: 1,
                       price: 150000,
                     },{
                       id: 2,
                       name: "Blue T-Shirt",
+                      stock: 1,
                       price: 150000,
                     }]
                   }
@@ -379,7 +437,6 @@ paths:
                         price: 150000,
                         stock: 3,
                         image: "download1.jpg",
-                        description: "This T-Shirt is for Men"
                         }
       responses:
         '200':
@@ -633,14 +690,13 @@ paths:
         - Orders
       security:
         - JWTAuth: []
-      parameters: []
       requestBody:
         content:
           application/json:
             schema:
               $ref: "#"
             example:
-              summary:
+              transaction summary:
                 - productid: 1
                   foto: .jpg
                   name: Black T-Shirt
@@ -655,10 +711,10 @@ paths:
                   price: 150000
                   
               payment:
-                totalprice: 300000
                 payment_method: BCA Transfer
                 card_number: 1111-1111-1111-1111
                 card_holder: Ibu yang punya toko
+              totalprice: 300000
                   
                         
       responses:
@@ -706,11 +762,20 @@ paths:
                     code: 500,
                     message: "There is an error in internal server",
                   }
+  /orders/{idorder}:
     get:
       tags:
         - Orders
       security:
         - JWTAuth: []
+      parameters:
+        - in: path
+          name: idorder
+          required: true
+          schema:
+            type: number
+            example: 1
+          description: ID Order 
    
       responses:
         '200':
@@ -842,9 +907,6 @@ components:
         "email":
           type: string
           minLength: 1
-        "password":
-          type: string
-          minLength: 1
         "address":
           type: string
           minLength: 1
@@ -865,9 +927,6 @@ components:
           type: number
           minLength: 1
         "image":
-          type: string
-          minLength: 1
-        "description":
           type: string
           minLength: 1
 
@@ -897,8 +956,5 @@ components:
           type: number
           minLength: 1
         "image":
-          type: string
-          minLength: 1
-        "description":
           type: string
           minLength: 1
