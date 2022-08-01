@@ -4,6 +4,7 @@ import (
 	"PROJECT-III/domain"
 	"PROJECT-III/features/middlewares"
 	"errors"
+	"fmt"
 	"log"
 
 	_bcrypt "golang.org/x/crypto/bcrypt"
@@ -56,4 +57,25 @@ func (ud *userData) LoginData(authData domain.LoginAuth) (data map[string]interf
 	dataToken["token"] = token
 	dataToken["role"] = userData.Role
 	return dataToken, nil
+}
+
+func (ud *userData) AccountUserData(userid int) domain.User {
+	var tmp User
+	err := ud.db.Where("ID = ?", userid).First(&tmp).Error
+	if err != nil {
+		log.Println("There is problem with data", err.Error())
+		return domain.User{}
+	}
+	return tmp.ToModel()
+
+}
+
+func (ud *userData) HistoryUserData(userid int) []domain.OrderHistory {
+	var tmp []OrderHistory
+	err := ud.db.Model(&domain.Order{}).Select("orders.id, orders.created_at, orders.totalprice").Where("orders.userid = ?", userid).Find(&tmp).Error
+	if err != nil {
+		log.Println("There is problem with data", err.Error())
+	}
+	fmt.Println("history", tmp)
+	return ParseOrderHistoryToArr(tmp)
 }

@@ -2,6 +2,7 @@ package data
 
 import (
 	"PROJECT-III/domain"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -16,10 +17,10 @@ type User struct {
 	Role     string `json:"role" form:"role"`
 }
 
-type UserProfile struct {
-	ID    int
-	Name  string
-	Phone string
+type OrderHistory struct {
+	ID        int
+	CreatedAt time.Time
+	Total     int
 }
 
 func (u *User) ToModel() domain.User {
@@ -34,6 +35,14 @@ func (u *User) ToModel() domain.User {
 	}
 }
 
+func (p *OrderHistory) ToOrderHistory() domain.OrderHistory {
+	return domain.OrderHistory{
+		ID:        p.ID,
+		CreatedAt: p.CreatedAt,
+		Total:     p.Total,
+	}
+}
+
 func FromModel(data domain.User) User {
 	var res User
 	res.ID = uint(data.ID)
@@ -43,6 +52,16 @@ func FromModel(data domain.User) User {
 	res.Address = data.Address
 	res.Phone = data.Phone
 	res.Role = data.Role
+
+	return res
+}
+
+func ParseOrderHistoryToArr(arr []OrderHistory) []domain.OrderHistory {
+	var res []domain.OrderHistory
+
+	for _, val := range arr {
+		res = append(res, val.ToOrderHistory())
+	}
 
 	return res
 }
