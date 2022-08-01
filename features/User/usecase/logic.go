@@ -37,3 +37,14 @@ func (uuc *userUserCase) RegisterUser(newuser domain.User, IDuser int) int {
 	}
 	return 200
 }
+
+// DeleteUser implementasi domain.UserUseCase
+func (uuc *userUserCase) DeleteUser(userID int) int {
+	delete := uuc.userData.DeleteData(userID)
+
+	if !delete {
+		log.Println("Data Not Found")
+		return 404
+	}
+	return 200
+}

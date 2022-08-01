@@ -33,8 +33,10 @@ type UserHandler interface {
 
 type UserUseCase interface {
 	RegisterUser(newuser User, IDuser int) int
+	DeleteUser(userID int) int
 }
 
 type UserData interface {
 	RegisterData(newuser User) User
+	DeleteData(userID int) bool
 }

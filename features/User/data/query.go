@@ -34,3 +34,17 @@ func (ud *userData) RegisterData(newuser domain.User) domain.User {
 
 	return user.ToModel()
 }
+
+// DeleteData implementasi domain.UserData
+func (ud *userData) DeleteData(userID int) bool {
+	res := ud.db.Where("ID = ?", userID).Delete(&User{})
+	if res.Error != nil {
+		log.Println("Cannot delete data", res.Error.Error())
+		return false
+	}
+	if res.RowsAffected < 1 {
+		log.Println("No data deleted", res.Error.Error())
+		return false
+	}
+	return true
+}
