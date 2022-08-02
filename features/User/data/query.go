@@ -50,25 +50,30 @@ func (ud *userData) DeleteData(userID int) bool {
 	return true
 }
 
-// func (ud *userData) LoginData(authData domain.LoginAuth) (data map[string]interface{}, err error) {
-// 	userData := User{}
-// 	res := ud.db.Where("email = ?", authData.Email).First(&userData)
-// 	if res.Error != nil {
-// 		return nil, res.Error
-// 	}
-// 	errCrypt := _bcrypt.CompareHashAndPassword([]byte(userData.Password), []byte(authData.Password))
-// 	if errCrypt != nil {
-// 		return nil, errors.New("invalid password")
-// 	}
+func (ud *userData) GetPasswordData(email string) string {
+	var user User
+	err := ud.db.Find(&user, "email = ?", email).Error
 
-// 	token, _ := middlewares.CreateToken(int(userData.ID), userData.Role)
+	if err != nil {
+		log.Println("Cant retrieve user data", err.Error())
+		return ""
+	}
 
-// 	var dataToken = map[string]interface{}{}
-// 	dataToken["id"] = int(userData.ID)
-// 	dataToken["token"] = token
-// 	dataToken["role"] = userData.Role
-// 	return dataToken, nil
-// }
+	return user.Password
+}
+
+func (ud *userData) LoginData(userdata domain.User) domain.User {
+	var user = FromModel(userdata)
+	err := ud.db.First(&user, "email  = ?", userdata.Email).Error
+
+	if err != nil {
+		log.Println("Cant login data", err.Error())
+		return domain.User{}
+	}
+
+	return user.ToModel()
+
+}
 
 func (ud *userData) AccountUserData(userid int) domain.User {
 	var tmp User
