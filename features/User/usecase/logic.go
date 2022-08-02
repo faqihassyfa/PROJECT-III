@@ -41,10 +41,12 @@ func (uuc *userUserCase) RegisterUser(newuser domain.User) int {
 	hashed, hasherr := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 
 	if hasherr != nil {
-		log.Println("Duplicate Data User")
+		log.Println("Cant encrypt: ", hasherr)
 		return 500
 	}
+
 	user.Password = string(hashed)
+	user.Role = "user"
 	insert := uuc.userData.RegisterData(user.ToModel())
 
 	if insert.ID == 0 {
