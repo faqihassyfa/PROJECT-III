@@ -121,7 +121,7 @@ func (uh *userHandler) Update() echo.HandlerFunc {
 
 func (uh *userHandler) Delete() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		id := common.ExtraData(c)
+		id := common.ExtractData(c)
 		status := uh.userUserCase.DeleteUser(id)
 
 		if status == 404 {
