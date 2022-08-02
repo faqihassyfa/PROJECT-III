@@ -2,10 +2,7 @@ package delivery
 
 import (
 	"PROJECT-III/domain"
-<<<<<<< HEAD
-=======
 	"PROJECT-III/features/common"
->>>>>>> d93fae70d318a208749989d806637816f93eb39c
 	"log"
 	"net/http"
 
@@ -14,36 +11,12 @@ import (
 
 type userHandler struct {
 	userUserCase domain.UserUseCase
-<<<<<<< HEAD
-	userData     domain.UserData
-=======
 	userdata     domain.UserData
->>>>>>> d93fae70d318a208749989d806637816f93eb39c
 }
 
 func New(uuc domain.UserUseCase, ud domain.UserData) domain.UserHandler {
 	return &userHandler{
 		userUserCase: uuc,
-<<<<<<< HEAD
-		userData:     ud,
-	}
-}
-
-// Register implementasi domain.UserHandler
-func (uh *userHandler) Register() echo.HandlerFunc {
-	return func(c echo.Context) error {
-		var newuser UserFormat
-		bind := c.Bind(&newuser)
-
-		if bind != nil {
-			log.Println("cannot bind")
-			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-				"code":    500,
-				"message": "There is an error in the internal server",
-			})
-		}
-		status := uh.userUserCase.RegisterUser(newuser.ToModel())
-=======
 		userdata:     ud,
 	}
 }
@@ -124,32 +97,10 @@ func (uh *userHandler) Update() echo.HandlerFunc {
 		}
 
 		status := uh.userUserCase.UpdateUser(tmp.ToModel(), id)
->>>>>>> d93fae70d318a208749989d806637816f93eb39c
 
 		if status == 400 {
 			return c.JSON(http.StatusBadRequest, map[string]interface{}{
 				"code":    status,
-<<<<<<< HEAD
-				"message": "Wrong input",
-			})
-		}
-
-		if status == 400 {
-			return c.JSON(http.StatusNotFound, map[string]interface{}{
-				"code":    status,
-				"message": "Data Not Found",
-			})
-		}
-		if status == 500 {
-			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-				"code":    status,
-				"message": "There is an error in the internal server",
-			})
-		}
-		return c.JSON(http.StatusOK, map[string]interface{}{
-			"code":    status,
-			"message": "Register Success",
-=======
 				"message": "wrong input",
 			})
 		}
@@ -164,14 +115,12 @@ func (uh *userHandler) Update() echo.HandlerFunc {
 		return c.JSON(http.StatusOK, map[string]interface{}{
 			"code":    status,
 			"message": "Registrasi Succes",
->>>>>>> d93fae70d318a208749989d806637816f93eb39c
 		})
 	}
 }
 
 func (uh *userHandler) Delete() echo.HandlerFunc {
 	return func(c echo.Context) error {
-<<<<<<< HEAD
 		id := common.ExtraData(c)
 		status := uh.userUserCase.DeleteUser(id)
 
@@ -190,10 +139,6 @@ func (uh *userHandler) Delete() echo.HandlerFunc {
 		return c.JSON(http.StatusOK, map[string]interface{}{
 			"code":    status,
 			"message": "Success Delete Data",
-=======
-		return c.JSON(http.StatusOK, map[string]interface{}{
-			"code":    200,
-			"message": "Registrasi Succes",
 		})
 	}
 }
@@ -203,7 +148,6 @@ func (uh *userHandler) Login() echo.HandlerFunc {
 		return c.JSON(http.StatusOK, map[string]interface{}{
 			"code":    200,
 			"message": "Registrasi Succes",
->>>>>>> d93fae70d318a208749989d806637816f93eb39c
 		})
 	}
 }
