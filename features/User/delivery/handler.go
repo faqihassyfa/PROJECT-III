@@ -3,6 +3,7 @@ package delivery
 import (
 	"PROJECT-III/domain"
 	"PROJECT-III/features/common"
+	"log"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -68,8 +69,51 @@ func (uh *userHandler) Register() echo.HandlerFunc {
 
 func (uh *userHandler) Update() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		var tmp UserFormat
+		res := c.Bind(&tmp)
+
+		qry := map[string]interface{}{}
+		id := common.ExtractData(c)
+
+		if res != nil {
+			log.Println("Cannot parse data", res)
+			c.JSON(http.StatusBadRequest, "error read input")
+		}
+
+		if tmp.Name != "" {
+			qry["name"] = tmp.Name
+		}
+
+		if tmp.Email != "" {
+			qry["email"] = tmp.Email
+		}
+
+		if tmp.Address != "" {
+			qry["address"] = tmp.Address
+		}
+
+		if tmp.Phone != "" {
+			qry["phone"] = tmp.Phone
+		}
+
+		status := uh.userUserCase.UpdateUser(tmp.ToModel(), id)
+
+		if status == 400 {
+			return c.JSON(http.StatusBadRequest, map[string]interface{}{
+				"code":    status,
+				"message": "wrong input",
+			})
+		}
+
+		if status == 500 {
+			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+				"code":    status,
+				"message": "There is an error in internal server",
+			})
+		}
+
 		return c.JSON(http.StatusOK, map[string]interface{}{
-			"code":    200,
+			"code":    status,
 			"message": "Registrasi Succes",
 		})
 	}

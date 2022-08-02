@@ -22,6 +22,14 @@ type OrderHistory struct {
 	Total     int
 }
 
+type Myaccount struct {
+	ID      int
+	Name    string
+	Email   string
+	Address string
+	Phone   string
+}
+
 type UserHandler interface {
 	Register() echo.HandlerFunc
 	Update() echo.HandlerFunc
@@ -34,6 +42,7 @@ type UserUseCase interface {
 	RegisterUser(newuser User, IDuser int) int
 	LoginUser(authData LoginAuth) (data map[string]interface{}, err error)
 	AccountUser(userid int) (User, []OrderHistory, int)
+	UpdateUser(updatedData User, userid int) int
 }
 
 type UserData interface {
@@ -41,4 +50,6 @@ type UserData interface {
 	LoginData(authData LoginAuth) (data map[string]interface{}, err error)
 	AccountUserData(userid int) User
 	HistoryUserData(userid int) []OrderHistory
+	UpdateUserData(updatedData User, userid int) User
+	CheckDuplicate(newuser User) bool
 }
