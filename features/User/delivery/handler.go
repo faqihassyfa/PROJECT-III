@@ -70,6 +70,7 @@ func (uh *userHandler) Register() echo.HandlerFunc {
 				"message": "There is an error in internal sever",
 			})
 		}
+
 		status := uh.userUserCase.RegisterUser(newuser.ToModel())
 
 		if status == 400 {
