@@ -79,3 +79,32 @@ func (ud *userData) HistoryUserData(userid int) []domain.OrderHistory {
 	fmt.Println("history", tmp)
 	return ParseOrderHistoryToArr(tmp)
 }
+
+func (ud *userData) UpdateUserData(updatedData domain.User, userid int) domain.User {
+	var user = FromModel(updatedData)
+	err := ud.db.Model(&user).Where("ID = ?", userid).Updates(updatedData)
+
+	if err.Error != nil {
+		log.Println("Cant update user object", err.Error.Error())
+		return domain.User{}
+	}
+
+	if err.RowsAffected == 0 {
+		log.Println("Data Not Found")
+		return domain.User{}
+	}
+	user.ID = uint(userid)
+	return user.ToModel()
+}
+
+func (ud *userData) CheckDuplicate(newuser domain.User) bool {
+	var user User
+	err := ud.db.Find(&user, "email = ?", newuser.Email)
+
+	if err.RowsAffected == 1 {
+		log.Println("Duplicated data", err.Error)
+		return true
+	}
+
+	return false
+}

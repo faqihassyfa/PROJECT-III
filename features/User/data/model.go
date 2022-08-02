@@ -23,6 +23,14 @@ type OrderHistory struct {
 	Total     int
 }
 
+type Myaccount struct {
+	ID      int
+	Name    string
+	Email   string
+	Address string
+	Phone   string
+}
+
 func (u *User) ToModel() domain.User {
 	return domain.User{
 		ID:       int(u.ID),
@@ -35,12 +43,33 @@ func (u *User) ToModel() domain.User {
 	}
 }
 
+func (u *Myaccount) ToMyAccount() domain.Myaccount {
+	return domain.Myaccount{
+		ID:      u.ID,
+		Name:    u.Name,
+		Email:   u.Email,
+		Address: u.Address,
+		Phone:   u.Phone,
+	}
+}
+
 func (p *OrderHistory) ToOrderHistory() domain.OrderHistory {
 	return domain.OrderHistory{
 		ID:        p.ID,
 		CreatedAt: p.CreatedAt,
 		Total:     p.Total,
 	}
+}
+
+func FromMyAccount(data domain.Myaccount) Myaccount {
+	var res Myaccount
+	res.ID = data.ID
+	res.Name = data.Name
+	res.Email = data.Email
+	res.Address = data.Address
+	res.Phone = data.Phone
+
+	return res
 }
 
 func FromModel(data domain.User) User {
