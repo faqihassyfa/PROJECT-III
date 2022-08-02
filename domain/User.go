@@ -39,7 +39,7 @@ type UserHandler interface {
 }
 
 type UserUseCase interface {
-	RegisterUser(newuser User, IDuser int) int
+	RegisterUser(newuser User) int
 	DeleteUser(userID int) int
 	LoginUser(authData LoginAuth) (data map[string]interface{}, err error)
 	AccountUser(userid int) (User, []OrderHistory, int)
