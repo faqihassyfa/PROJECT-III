@@ -22,10 +22,23 @@ func New(uuc domain.UserData, v *validator.Validate) domain.UserUseCase {
 }
 
 // Register implementasi domain.UserUseCase
-func (uuc *userUserCase) RegisterUser(newuser domain.User, IDuser int) int {
+func (uuc *userUserCase) RegisterUser(newuser domain.User) int {
 	var user = data.FromModel(newuser)
+	validError := uuc.validate.Struct(user)
 
-	hashed, hasherr := bcrypt.GenerateFromPassword([]byte(user.Password), IDuser)
+	if validError != nil {
+		log.Println("Validation error : ", validError)
+		return 400
+	}
+
+	duplicate := uuc.userData.CheckDuplicate(user.ToModel())
+
+	if duplicate {
+		log.Println("Duplicate Data")
+		return 400
+	}
+
+	hashed, hasherr := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 
 	if hasherr != nil {
 		log.Println("Duplicate Data User")

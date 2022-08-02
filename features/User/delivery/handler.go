@@ -60,9 +60,39 @@ func (uh *userHandler) Account() echo.HandlerFunc {
 
 func (uh *userHandler) Register() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		var newuser UserFormat
+		bind := c.Bind(&newuser)
+
+		if bind != nil {
+			log.Println("cannot bind")
+			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+				"code":    500,
+				"message": "There is an error in internal sever",
+			})
+		}
+		status := uh.userUserCase.RegisterUser(newuser.ToModel())
+
+		if status == 400 {
+			return c.JSON(http.StatusBadRequest, map[string]interface{}{
+				"code":    status,
+				"message": "Wrong input",
+			})
+		}
+		if status == 404 {
+			return c.JSON(http.StatusNotFound, map[string]interface{}{
+				"code":    status,
+				"message": "Data Not Found",
+			})
+		}
+		if status == 500 {
+			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+				"code":    status,
+				"message": "There is an error in the internal server",
+			})
+		}
 		return c.JSON(http.StatusOK, map[string]interface{}{
-			"code":    200,
-			"message": "Registrasi Succes",
+			"code":    status,
+			"message": "Register Success",
 		})
 	}
 }
