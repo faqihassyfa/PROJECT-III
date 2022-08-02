@@ -2,8 +2,8 @@ package mysql
 
 import (
 	"PROJECT-III/config"
-	orderdata "PROJECT-III/features/order/data"
-	userdata "PROJECT-III/features/user/data"
+	orderdata "PROJECT-III/features/Order/data"
+	userdata "PROJECT-III/features/User/data"
 	"fmt"
 	"log"
 
