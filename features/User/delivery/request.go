@@ -8,7 +8,6 @@ type UserFormat struct {
 	Password string `json:"password" form:"password"`
 	Address  string `json:"address" form:"address"`
 	Phone    string `json:"phone" form:"phone"`
-	Role     string `json:"role" form:"role"`
 }
 
 func (uf *UserFormat) ToModel() domain.User {
@@ -18,7 +17,6 @@ func (uf *UserFormat) ToModel() domain.User {
 		Password: uf.Password,
 		Address:  uf.Address,
 		Phone:    uf.Phone,
-		Role:     uf.Role,
 	}
 }
 

@@ -16,11 +16,18 @@ type User struct {
 	Role     string
 }
 
-type UserProfile struct {
+type OrderHistory struct {
 	ID        int
-	Name      string
-	Phone     string
 	CreatedAt time.Time
+	Total     int
+}
+
+type Myaccount struct {
+	ID      int
+	Name    string
+	Email   string
+	Address string
+	Phone   string
 }
 
 type UserHandler interface {
@@ -28,15 +35,23 @@ type UserHandler interface {
 	Update() echo.HandlerFunc
 	Delete() echo.HandlerFunc
 	Login() echo.HandlerFunc
-	//GetProfile() echo.HandlerFunc
+	Account() echo.HandlerFunc
 }
 
 type UserUseCase interface {
 	RegisterUser(newuser User, IDuser int) int
 	DeleteUser(userID int) int
+	LoginUser(authData LoginAuth) (data map[string]interface{}, err error)
+	AccountUser(userid int) (User, []OrderHistory, int)
+	UpdateUser(updatedData User, userid int) int
 }
 
 type UserData interface {
 	RegisterData(newuser User) User
 	DeleteData(userID int) bool
+	LoginData(authData LoginAuth) (data map[string]interface{}, err error)
+	AccountUserData(userid int) User
+	HistoryUserData(userid int) []OrderHistory
+	UpdateUserData(updatedData User, userid int) User
+	CheckDuplicate(newuser User) bool
 }

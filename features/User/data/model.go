@@ -2,6 +2,7 @@ package data
 
 import (
 	"PROJECT-III/domain"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -16,10 +17,18 @@ type User struct {
 	Role     string `json:"role" form:"role"`
 }
 
-type UserProfile struct {
-	ID    int
-	Name  string
-	Phone string
+type OrderHistory struct {
+	ID        int
+	CreatedAt time.Time
+	Total     int
+}
+
+type Myaccount struct {
+	ID      int
+	Name    string
+	Email   string
+	Address string
+	Phone   string
 }
 
 func (u *User) ToModel() domain.User {
@@ -34,6 +43,35 @@ func (u *User) ToModel() domain.User {
 	}
 }
 
+func (u *Myaccount) ToMyAccount() domain.Myaccount {
+	return domain.Myaccount{
+		ID:      u.ID,
+		Name:    u.Name,
+		Email:   u.Email,
+		Address: u.Address,
+		Phone:   u.Phone,
+	}
+}
+
+func (p *OrderHistory) ToOrderHistory() domain.OrderHistory {
+	return domain.OrderHistory{
+		ID:        p.ID,
+		CreatedAt: p.CreatedAt,
+		Total:     p.Total,
+	}
+}
+
+func FromMyAccount(data domain.Myaccount) Myaccount {
+	var res Myaccount
+	res.ID = data.ID
+	res.Name = data.Name
+	res.Email = data.Email
+	res.Address = data.Address
+	res.Phone = data.Phone
+
+	return res
+}
+
 func FromModel(data domain.User) User {
 	var res User
 	res.ID = uint(data.ID)
@@ -43,6 +81,16 @@ func FromModel(data domain.User) User {
 	res.Address = data.Address
 	res.Phone = data.Phone
 	res.Role = data.Role
+
+	return res
+}
+
+func ParseOrderHistoryToArr(arr []OrderHistory) []domain.OrderHistory {
+	var res []domain.OrderHistory
+
+	for _, val := range arr {
+		res = append(res, val.ToOrderHistory())
+	}
 
 	return res
 }
