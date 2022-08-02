@@ -4,7 +4,6 @@ import (
 	"PROJECT-III/config"
 	"PROJECT-III/factory"
 	"PROJECT-III/infrastructure/database/mysql"
-	"PROJECT-III/migration"
 	"fmt"
 
 	"github.com/labstack/echo/v4"
@@ -14,7 +13,7 @@ import (
 func main() {
 	cfg := config.GetConfig()
 	db := mysql.InitDB(cfg)
-	migration.InitMigrate(db)
+	mysql.MigrateData(db)
 	e := echo.New()
 	// e.Use(middleware.CORS())
 

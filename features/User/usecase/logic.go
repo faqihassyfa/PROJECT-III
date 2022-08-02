@@ -64,10 +64,11 @@ func (uuc *userUserCase) DeleteUser(userID int) int {
 	}
 	return 200
 }
-func (uuc *userUserCase) LoginUser(authData domain.LoginAuth) (data map[string]interface{}, err error) {
-	data, err = uuc.userData.LoginData(authData)
-	return data, err
-}
+
+// func (uuc *userUserCase) LoginUser(authData domain.LoginAuth) (data map[string]interface{}, err error) {
+// 	data, err = uuc.userData.LoginData(authData)
+// 	return data, err
+// }
 
 func (uuc *userUserCase) AccountUser(userid int) (domain.User, []domain.OrderHistory, int) {
 	myaccount := uuc.userData.AccountUserData(userid)
