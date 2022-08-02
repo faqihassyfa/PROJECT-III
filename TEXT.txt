@@ -1,0 +1,17 @@
+Ini adalah catatan kaki sementara untuk developer
+
+export DBname="fox"
+export DBusername="root"
+export DBpassword=""
+export DBhost="localhost"
+export DBport="3306"
+export SECRET="h1d3n"
+export SERVERPORT=8080
+
+export DBname="fox"
+export DBusername="root"
+export DBpassword="asd12345"
+export DBhost="redb.cp9rftl8u3wq.ap-southeast-1.rds.amazonaws.com"
+export DBport="3306"
+export SECRET="h1d3n"
+export SERVERPORT=8080
