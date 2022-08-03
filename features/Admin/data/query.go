@@ -73,42 +73,42 @@ func (ad *adminData) DeleteProductData(productid, adminid int) bool {
 	return true
 }
 
-func (ad *adminData) CreateProductData(newProduct domain.Product) domain.Product {
-	var product = FromModel(newProduct)
-	err := ad.db.Create(&product)
-
-	if err.Error != nil {
-		log.Println("cannot create data", err.Error)
-		return domain.Product{}
-	}
-	return product.ToModel()
-}
-
 // func (ad *adminData) CreateProductData(newProduct domain.Product) domain.Product {
-// 	var detailuser domain.User
-// 	var products = FromModel(newProduct)
-// 	cekadmin := ad.db.Table("users").Where("ID = ?", products.Adminid).First(&detailuser)
-
-// 	if cekadmin.Error != nil {
-// 		log.Println("cannot read data", cekadmin.Error.Error())
-// 		return domain.Product{}
-// 	}
-
-// 	if detailuser.Role != "admin" {
-// 		log.Println("not admin!", cekadmin.Error.Error())
-// 		return domain.Product{}
-// 	}
-
-// 	err := ad.db.Create(&products)
+// 	var product = FromModel(newProduct)
+// 	err := ad.db.Create(&product)
 
 // 	if err.Error != nil {
-// 		log.Println("cannot create data", err.Error.Error())
+// 		log.Println("cannot create data", err.Error)
 // 		return domain.Product{}
 // 	}
-
-// 	if err.RowsAffected == 0 {
-// 		log.Println("data not found")
-// 		return domain.Product{}
-// 	}
-// 	return products.ToModel()
+// 	return product.ToModel()
 // }
+
+func (ad *adminData) CreateProductData(newProduct domain.Product) domain.Product {
+	var detailuser domain.User
+	var products = FromModel(newProduct)
+	cekadmin := ad.db.Table("users").Where("ID = ?", products.Adminid).First(&detailuser)
+
+	if cekadmin.Error != nil {
+		log.Println("cannot read data", cekadmin.Error.Error())
+		return domain.Product{}
+	}
+
+	if detailuser.Role != "admin" {
+		log.Println("not admin!", cekadmin.Error.Error())
+		return domain.Product{}
+	}
+
+	err := ad.db.Create(&products)
+
+	if err.Error != nil {
+		log.Println("cannot create data", err.Error.Error())
+		return domain.Product{}
+	}
+
+	if err.RowsAffected == 0 {
+		log.Println("data not found")
+		return domain.Product{}
+	}
+	return products.ToModel()
+}

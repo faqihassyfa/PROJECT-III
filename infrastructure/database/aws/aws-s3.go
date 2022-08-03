@@ -42,7 +42,7 @@ func DoUpload(sess *session.Session, file multipart.FileHeader, filename string)
 		&s3manager.UploadInput{
 			Bucket:      aws.String("rubahmerah"),
 			ContentType: aws.String(http.DetectContentType(buffer)),
-			Key:         aws.String("bbb"),
+			Key:         aws.String(filename),
 			Body:        body,
 		},
 	)
