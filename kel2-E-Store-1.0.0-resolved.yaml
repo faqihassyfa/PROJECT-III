@@ -17,7 +17,8 @@ info:
 servers:
 - url: https://virtserver.swaggerhub.com/vaniliacahya/E-Store/1.0.0
   description: SwaggerHub API Auto Mocking
-- url: https://petstore.swagger.io/v2
+- url: https://rubahmerah.site/
+  description: Ini adalah link untuk deployment
 tags:
 - name: authentication
   description: Layanan untuk authentikasi user

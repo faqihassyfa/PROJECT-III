@@ -7,7 +7,7 @@ import (
 	"fmt"
 
 	"github.com/labstack/echo/v4"
-	//"github.com/labstack/echo/v4/middleware"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
@@ -15,7 +15,7 @@ func main() {
 	db := mysql.InitDB(cfg)
 	mysql.MigrateData(db)
 	e := echo.New()
-	// e.Use(middleware.CORS())
+	e.Use(middleware.CORS())
 
 	factory.InitFactory(e, db, *cfg)
 
