@@ -128,3 +128,13 @@ func (uuc *userUserCase) UpdateUser(updatedData domain.User, userid int) int {
 
 	return 200
 }
+
+func (uuc *userUserCase) AllProduct() ([]domain.Product, int) {
+	read := uuc.userData.AllProductData()
+
+	if len(read) == 0 {
+		return nil, 404
+	}
+
+	return read, 200
+}

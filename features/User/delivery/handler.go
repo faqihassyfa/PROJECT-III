@@ -25,6 +25,7 @@ func (uh *userHandler) Account() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := common.ExtractData(c)
 		var arrmap []map[string]interface{}
+		var arrmap2 []map[string]interface{}
 
 		myaccount, myorder, status := uh.userUserCase.AccountUser(id)
 
@@ -48,12 +49,21 @@ func (uh *userHandler) Account() echo.HandlerFunc {
 		res["address"] = myaccount.Address
 		res["phone"] = myaccount.Phone
 
-		arrmap = append(arrmap, res)
+		for i := 0; i < len(myorder); i++ {
+			var res2 = map[string]interface{}{}
+			res2["id"] = myorder[i].ID
+			res2["date"] = myorder[i].CreatedAt
+			res2["total"] = myorder[i].Totalprice
+			arrmap = append(arrmap, res2)
+		}
+
+		res["orders"] = arrmap
+		arrmap2 = append(arrmap2, res)
+
 		return c.JSON(http.StatusOK, map[string]interface{}{
-			"my account":       res,
-			"my order history": myorder,
-			"code":             200,
-			"message":          "success get my account",
+			"data":    arrmap2,
+			"code":    200,
+			"message": "success get my account",
 		})
 	}
 }
@@ -202,11 +212,54 @@ func (uh *userHandler) Login() echo.HandlerFunc {
 
 		token := common.GenerateToken(int(data.ID))
 
+		var res = map[string]interface{}{}
+		res["name"] = data.Name
+		res["email"] = data.Email
+		res["address"] = data.Address
+		res["phone"] = data.Phone
+		res["token"] = token
+		res["role"] = data.Role
+
 		return c.JSON(http.StatusOK, map[string]interface{}{
 			"code":    200,
 			"message": "success login",
-			"token":   token,
-			"role":    data.Role,
+			"data":    res,
+		})
+	}
+}
+
+func (uh *userHandler) Product() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		product, status := uh.userUserCase.AllProduct()
+		var arrmap []map[string]interface{}
+
+		for i := 0; i < len(product); i++ {
+			var res = map[string]interface{}{}
+			res["name"] = product[i].Name
+			res["price"] = product[i].Price
+			res["image"] = product[i].Image
+
+			arrmap = append(arrmap, res)
+		}
+
+		if status == 404 {
+			return c.JSON(http.StatusNotFound, map[string]interface{}{
+				"code":    status,
+				"message": "data not found",
+			})
+		}
+
+		if status == 500 {
+			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+				"code":    status,
+				"message": "there is an error in internal server",
+			})
+		}
+
+		return c.JSON(http.StatusOK, map[string]interface{}{
+			"data":    arrmap,
+			"code":    status,
+			"message": "get data success",
 		})
 	}
 }
