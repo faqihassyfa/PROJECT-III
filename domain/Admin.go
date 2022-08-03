@@ -1,31 +1,32 @@
 package domain
 
-import "time"
+import (
+	"time"
 
-type Admin struct {
-	ID        int
-	Name      string
-	Email     string
-	Password  string
-	CreatedAt time.Time
-	UpdatedAt time.Time
-}
+	"github.com/labstack/echo/v4"
+)
 
-type Clothes struct {
+type Product struct {
 	ID        int
+	Adminid   int
 	Name      string
 	Price     int
 	Stock     int
 	Image     string
 	CreatedAt time.Time
-	UpdatedAt time.Time
+}
+
+type AdminHandler interface {
+	Update() echo.HandlerFunc
+	Delete() echo.HandlerFunc
 }
 
 type AdminUseCase interface {
-	CreateProducts(data Clothes)
-	GetHistory([]Clothes, int)
+	UpdateProduct(updatedData Product, productid, adminid int) int
+	DeleteProduct(productid, adminid int) int
 }
 
 type AdminData interface {
-	GetHistoryData() []Clothes
+	UpdateProductData(updatedData Product) Product
+	DeleteProductData(productid, adminid int) bool
 }

@@ -31,14 +31,14 @@ func (uh *userHandler) Account() echo.HandlerFunc {
 		if status == 404 {
 			return c.JSON(http.StatusNotFound, map[string]interface{}{
 				"code":    status,
-				"message": "Data not found",
+				"message": "data not found",
 			})
 		}
 
 		if status == 500 {
 			return c.JSON(http.StatusNotFound, map[string]interface{}{
 				"code":    status,
-				"message": "There is an error in internal server",
+				"message": "there is an error in internal server",
 			})
 		}
 
@@ -53,7 +53,7 @@ func (uh *userHandler) Account() echo.HandlerFunc {
 			"my account":       res,
 			"my order history": myorder,
 			"code":             200,
-			"message":          "Succes Get My Account",
+			"message":          "success get my account",
 		})
 	}
 }
@@ -67,7 +67,7 @@ func (uh *userHandler) Register() echo.HandlerFunc {
 			log.Println("cannot bind")
 			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 				"code":    500,
-				"message": "There is an error in internal sever",
+				"message": "there is an error in internal sever",
 			})
 		}
 
@@ -76,24 +76,24 @@ func (uh *userHandler) Register() echo.HandlerFunc {
 		if status == 400 {
 			return c.JSON(http.StatusBadRequest, map[string]interface{}{
 				"code":    status,
-				"message": "Wrong input",
+				"message": "wrong input",
 			})
 		}
 		if status == 404 {
 			return c.JSON(http.StatusNotFound, map[string]interface{}{
 				"code":    status,
-				"message": "Data Not Found",
+				"message": "data Not Found",
 			})
 		}
 		if status == 500 {
 			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 				"code":    status,
-				"message": "There is an error in the internal server",
+				"message": "there is an error in the internal server",
 			})
 		}
 		return c.JSON(http.StatusOK, map[string]interface{}{
 			"code":    status,
-			"message": "Register Success",
+			"message": "success register",
 		})
 	}
 }
@@ -107,8 +107,11 @@ func (uh *userHandler) Update() echo.HandlerFunc {
 		id := common.ExtractData(c)
 
 		if res != nil {
-			log.Println("Cannot parse data", res)
-			c.JSON(http.StatusBadRequest, "error read input")
+			log.Println("cant bind")
+			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+				"code":    500,
+				"message": "there is an error in internal server",
+			})
 		}
 
 		if tmp.Name != "" {
@@ -139,13 +142,13 @@ func (uh *userHandler) Update() echo.HandlerFunc {
 		if status == 500 {
 			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 				"code":    status,
-				"message": "There is an error in internal server",
+				"message": "there is an error in internal server",
 			})
 		}
 
 		return c.JSON(http.StatusOK, map[string]interface{}{
 			"code":    status,
-			"message": "Registrasi Succes",
+			"message": "success update data",
 		})
 	}
 }
@@ -158,18 +161,18 @@ func (uh *userHandler) Delete() echo.HandlerFunc {
 		if status == 404 {
 			return c.JSON(http.StatusNotFound, map[string]interface{}{
 				"code":    status,
-				"message": "Data Not Found",
+				"message": "data Not Found",
 			})
 		}
 		if status == 500 {
 			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 				"code":    status,
-				"message": "There is an error in the internal server",
+				"message": "there is an error in the internal server",
 			})
 		}
 		return c.JSON(http.StatusOK, map[string]interface{}{
 			"code":    status,
-			"message": "Success Delete Data",
+			"message": "success delete data",
 		})
 	}
 }
@@ -183,7 +186,7 @@ func (uh *userHandler) Login() echo.HandlerFunc {
 			log.Println("invalid input")
 			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 				"code":    500,
-				"message": "There is an error in internal server",
+				"message": "there is an error in internal server",
 			})
 		}
 
@@ -193,7 +196,7 @@ func (uh *userHandler) Login() echo.HandlerFunc {
 			log.Println("Login failed", err)
 			return c.JSON(http.StatusBadRequest, map[string]interface{}{
 				"code":    400,
-				"message": "Wrong username or password",
+				"message": "wrong username or password",
 			})
 		}
 
@@ -201,7 +204,7 @@ func (uh *userHandler) Login() echo.HandlerFunc {
 
 		return c.JSON(http.StatusOK, map[string]interface{}{
 			"code":    200,
-			"message": "Login success",
+			"message": "success login",
 			"token":   token,
 			"role":    data.Role,
 		})
