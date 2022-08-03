@@ -49,3 +49,22 @@ func (auc *adminUsecase) DeleteProduct(productid, adminid int) int {
 
 	return 200
 }
+
+func (auc *adminUsecase) CreateProduct(newProduct domain.Product, adminid int) int {
+	var product = data.FromModel(newProduct)
+	validError := auc.validate.Struct(product)
+
+	if validError != nil {
+		log.Println("Validation error : ", validError)
+		return 400
+	}
+
+	product.Adminid = adminid
+	create := auc.adminData.CreateProductData(product.ToModel())
+
+	if create.ID == 0 {
+		log.Println("error after creating data")
+		return 500
+	}
+	return 200
+}

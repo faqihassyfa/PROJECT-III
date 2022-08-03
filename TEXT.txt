@@ -7,6 +7,9 @@ export DBhost="localhost"
 export DBport="3306"
 export SECRET="h1d3n"
 export SERVERPORT=8080
+export S3_KEY=
+export S3_SECRET=
+export S3_REGION=
 
 export DBname="fox"
 export DBusername="root"

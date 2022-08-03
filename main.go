@@ -17,7 +17,7 @@ func main() {
 	e := echo.New()
 	// e.Use(middleware.CORS())
 
-	factory.InitFactory(e, db)
+	factory.InitFactory(e, db, *cfg)
 
 	fmt.Println("application is running ....")
 	dsn := fmt.Sprintf(":%d", config.SERVERPORT)

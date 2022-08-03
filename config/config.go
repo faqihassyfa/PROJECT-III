@@ -60,9 +60,9 @@ func initConfig() *AppConfig {
 		return nil
 	}
 	defaultConfig.Port = cnv
-	defaultConfig.Keys3 = os.Getenv("Keys3")
-	defaultConfig.Secrets3 = os.Getenv("Secrets3")
-	defaultConfig.Regions3 = os.Getenv("Regions3")
+	defaultConfig.Keys3 = os.Getenv("S3_KEY")
+	defaultConfig.Secrets3 = os.Getenv("S3_SECRET")
+	defaultConfig.Regions3 = os.Getenv("S3_REGION")
 
 	return &defaultConfig
 }
