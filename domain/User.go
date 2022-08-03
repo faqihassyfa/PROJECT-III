@@ -17,9 +17,9 @@ type User struct {
 }
 
 type OrderHistory struct {
-	ID        int
-	CreatedAt time.Time
-	Total     int
+	ID         int
+	CreatedAt  time.Time
+	Totalprice int
 }
 
 type Myaccount struct {
@@ -36,6 +36,7 @@ type UserHandler interface {
 	Delete() echo.HandlerFunc
 	Login() echo.HandlerFunc
 	Account() echo.HandlerFunc
+	Product() echo.HandlerFunc
 }
 
 type UserUseCase interface {
@@ -44,6 +45,7 @@ type UserUseCase interface {
 	LoginUser(userdata User) (User, error)
 	AccountUser(userid int) (User, []OrderHistory, int)
 	UpdateUser(updatedData User, userid int) int
+	AllProduct() ([]Product, int)
 }
 
 type UserData interface {
@@ -55,4 +57,5 @@ type UserData interface {
 	HistoryUserData(userid int) []OrderHistory
 	UpdateUserData(updatedData User, userid int) User
 	CheckDuplicate(newuser User) bool
+	AllProductData() []Product
 }

@@ -18,9 +18,9 @@ type User struct {
 }
 
 type OrderHistory struct {
-	ID        int
-	CreatedAt time.Time
-	Total     int
+	ID         int
+	CreatedAt  time.Time
+	Totalprice int
 }
 
 type Myaccount struct {
@@ -29,6 +29,14 @@ type Myaccount struct {
 	Email   string
 	Address string
 	Phone   string
+}
+
+type Product struct {
+	ID    int
+	Name  string
+	Price int
+	Stock int
+	Image string
 }
 
 func (u *User) ToModel() domain.User {
@@ -55,9 +63,9 @@ func (u *Myaccount) ToMyAccount() domain.Myaccount {
 
 func (p *OrderHistory) ToOrderHistory() domain.OrderHistory {
 	return domain.OrderHistory{
-		ID:        p.ID,
-		CreatedAt: p.CreatedAt,
-		Total:     p.Total,
+		ID:         p.ID,
+		CreatedAt:  p.CreatedAt,
+		Totalprice: p.Totalprice,
 	}
 }
 
@@ -90,6 +98,26 @@ func ParseOrderHistoryToArr(arr []OrderHistory) []domain.OrderHistory {
 
 	for _, val := range arr {
 		res = append(res, val.ToOrderHistory())
+	}
+
+	return res
+}
+
+func (u *Product) ToProduct() domain.Product {
+	return domain.Product{
+		ID:    u.ID,
+		Name:  u.Name,
+		Price: u.Price,
+		Stock: u.Stock,
+		Image: u.Image,
+	}
+}
+
+func ParseProductToArr(arr []Product) []domain.Product {
+	var res []domain.Product
+
+	for _, val := range arr {
+		res = append(res, val.ToProduct())
 	}
 
 	return res

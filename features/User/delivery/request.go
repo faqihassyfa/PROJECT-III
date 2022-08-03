@@ -31,3 +31,27 @@ func (lf *LoginFormat) ToModelLogin() domain.User {
 		Password: lf.Password,
 	}
 }
+
+type ProductRequest struct {
+	Name  string
+	Price int
+	Image string
+}
+
+func (pr *ProductRequest) ToProductRead() domain.Product {
+	return domain.Product{
+		Name:  pr.Name,
+		Price: pr.Price,
+		Image: pr.Image,
+	}
+}
+
+func ParseToArr(arr []ProductRequest) []domain.Product {
+	var res []domain.Product
+
+	for _, val := range arr {
+		res = append(res, val.ToProductRead())
+	}
+
+	return res
+}

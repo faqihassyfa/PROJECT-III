@@ -2,6 +2,7 @@ package data
 
 import (
 	"PROJECT-III/domain"
+	"PROJECT-III/features/Order/data"
 	"fmt"
 	"log"
 
@@ -88,7 +89,7 @@ func (ud *userData) AccountUserData(userid int) domain.User {
 
 func (ud *userData) HistoryUserData(userid int) []domain.OrderHistory {
 	var tmp []OrderHistory
-	err := ud.db.Model(&domain.Order{}).Select("orders.id, orders.created_at, orders.totalprice").Where("orders.userid = ?", userid).Find(&tmp).Error
+	err := ud.db.Model(&data.Order{}).Select("orders.totalprice, orders.created_at, orders.id").Where("userid = ?", userid).Find(&tmp).Error
 	if err != nil {
 		log.Println("There is problem with data", err.Error())
 	}
@@ -123,4 +124,14 @@ func (ud *userData) CheckDuplicate(newuser domain.User) bool {
 	}
 
 	return false
+}
+
+func (ud *userData) AllProductData() []domain.Product {
+	var data []Product
+	err := ud.db.Table("products").Find(&data).Limit(50)
+	if err.Error != nil {
+		log.Println("error on select data", err.Error.Error())
+		return nil
+	}
+	return ParseProductToArr(data)
 }

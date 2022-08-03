@@ -64,6 +64,15 @@ func (ah *adminHandler) Update() echo.HandlerFunc {
 			qry["stock"] = tmp.Stock
 		}
 
+		file, err := c.FormFile("photo")
+
+		if err != nil {
+			log.Println(err)
+		}
+
+		link := awss3.DoUpload(ah.conn, *file, file.Filename)
+		tmp.Image = link
+
 		status := ah.adminUseCase.UpdateProduct(tmp.ToModel(), id, adminid)
 
 		if status == 400 {
