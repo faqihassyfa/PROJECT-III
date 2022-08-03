@@ -112,3 +112,13 @@ func (ad *adminData) CreateProductData(newProduct domain.Product) domain.Product
 	}
 	return products.ToModel()
 }
+
+func (ad *adminData) ReadAllProductData() []domain.Product {
+	var products []Product
+	err := ad.db.Find(&products).Error
+	if err != nil {
+		log.Println("cannot read data", err.Error())
+		return nil
+	}
+	return ParseToArr(products)
+}
