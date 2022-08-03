@@ -107,8 +107,11 @@ func (uh *userHandler) Update() echo.HandlerFunc {
 		id := common.ExtractData(c)
 
 		if res != nil {
-			log.Println("cannot parse data", res)
-			c.JSON(http.StatusBadRequest, "error read input")
+			log.Println("cant bind")
+			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+				"code":    500,
+				"message": "there is an error in internal server",
+			})
 		}
 
 		if tmp.Name != "" {

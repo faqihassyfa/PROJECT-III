@@ -31,6 +31,3 @@ func (lf *LoginFormat) ToModelLogin() domain.User {
 		Password: lf.Password,
 	}
 }
-
-type ReturnFormat struct {
-}
