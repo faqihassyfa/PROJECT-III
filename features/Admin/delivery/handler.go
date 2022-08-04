@@ -32,13 +32,21 @@ func (ah *adminHandler) Update() echo.HandlerFunc {
 		bind := c.Bind(&tmp)
 
 		qry := map[string]interface{}{}
-		adminid := common.ExtractData(c)
+		adminid, role := common.ExtractData(c)
 
 		if bind != nil {
 			log.Println("cant bind")
 			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 				"code":    500,
 				"message": "there is an error in internal server",
+			})
+		}
+
+		if role != "admin" {
+			log.Println("not admin")
+			return c.JSON(http.StatusUnauthorized, map[string]interface{}{
+				"code":    401,
+				"message": "not admin",
 			})
 		}
 
@@ -107,7 +115,15 @@ func (ah *adminHandler) Delete() echo.HandlerFunc {
 			return c.JSON(http.StatusInternalServerError, "cant convert to int")
 		}
 
-		id := common.ExtractData(c)
+		id, role := common.ExtractData(c)
+
+		if role != "admin" {
+			log.Println("not admin")
+			return c.JSON(http.StatusUnauthorized, map[string]interface{}{
+				"code":    401,
+				"message": "not admin",
+			})
+		}
 
 		status := ah.adminUseCase.DeleteProduct(cnv, id)
 
@@ -135,7 +151,7 @@ func (ah *adminHandler) Delete() echo.HandlerFunc {
 func (ah *adminHandler) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var newproduct ProductFormat
-		id := common.ExtractData(c)
+		id, role := common.ExtractData(c)
 		bind := c.Bind(&newproduct)
 
 		if bind != nil {
@@ -143,6 +159,14 @@ func (ah *adminHandler) Create() echo.HandlerFunc {
 			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 				"code":    500,
 				"message": "there is an error in internal server",
+			})
+		}
+
+		if role != "admin" {
+			log.Println("not admin")
+			return c.JSON(http.StatusUnauthorized, map[string]interface{}{
+				"code":    401,
+				"message": "not admin",
 			})
 		}
 
@@ -184,7 +208,16 @@ func (ah *adminHandler) Create() echo.HandlerFunc {
 
 func (ah *adminHandler) ReadAll() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		id := common.ExtractData(c)
+		id, role := common.ExtractData(c)
+
+		if role != "admin" {
+			log.Println("not admin")
+			return c.JSON(http.StatusUnauthorized, map[string]interface{}{
+				"code":    401,
+				"message": "not admin",
+			})
+		}
+
 		data, status := ah.adminUseCase.ReadAllProduct(id)
 
 		var arrmap []map[string]interface{}
@@ -221,7 +254,16 @@ func (ah *adminHandler) ReadAll() echo.HandlerFunc {
 
 func (ah *adminHandler) ReadHistory() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		id := common.ExtractData(c)
+		id, role := common.ExtractData(c)
+
+		if role != "admin" {
+			log.Println("not admin")
+			return c.JSON(http.StatusUnauthorized, map[string]interface{}{
+				"code":    401,
+				"message": "not admin",
+			})
+		}
+
 		data, status := ah.adminUseCase.HistoryAdmin(id)
 
 		var arrmap []map[string]interface{}

@@ -23,7 +23,7 @@ func New(uuc domain.UserUseCase, ud domain.UserData) domain.UserHandler {
 
 func (uh *userHandler) Account() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		id := common.ExtractData(c)
+		id, _ := common.ExtractData(c)
 		var arrmap []map[string]interface{}
 		var arrmap2 []map[string]interface{}
 
@@ -114,7 +114,7 @@ func (uh *userHandler) Update() echo.HandlerFunc {
 		res := c.Bind(&tmp)
 
 		qry := map[string]interface{}{}
-		id := common.ExtractData(c)
+		id, _ := common.ExtractData(c)
 
 		if res != nil {
 			log.Println("cant bind")
@@ -165,7 +165,7 @@ func (uh *userHandler) Update() echo.HandlerFunc {
 
 func (uh *userHandler) Delete() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		id := common.ExtractData(c)
+		id, _ := common.ExtractData(c)
 		status := uh.userUserCase.DeleteUser(id)
 
 		if status == 404 {
@@ -210,7 +210,7 @@ func (uh *userHandler) Login() echo.HandlerFunc {
 			})
 		}
 
-		token := common.GenerateToken(int(data.ID))
+		token := common.GenerateToken(int(data.ID), data.Role)
 
 		var res = map[string]interface{}{}
 		res["name"] = data.Name
