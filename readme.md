@@ -108,7 +108,7 @@ Several commands make use of admin features, as shown below.
 
   [![GitHub](https://img.shields.io/badge/vaniliacahya-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/vaniliacahya)
   
-  - Faqih Assyfa Poedjiono
+- Faqih Assyfa Poedjiono
        
   Reach me:
 
