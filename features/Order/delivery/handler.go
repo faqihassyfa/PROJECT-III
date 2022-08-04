@@ -24,7 +24,7 @@ func New(od domain.OrderData, ouc domain.OrderUseCase) domain.OrderHandler {
 func (oh *orderHandler) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var neworder OrderFormat
-		id := common.ExtractData(c)
+		id, _ := common.ExtractData(c)
 		bind := c.Bind(&neworder)
 
 		if bind != nil {
