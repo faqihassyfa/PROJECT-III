@@ -8,7 +8,7 @@ An online retailer called Clothing Online Store carries a selection of clothing 
 
 </details>   
        
-### 🛠 &nbsp;Build App & Database
+### 💄 &nbsp;Build App & Database 💍
 ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
 ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
@@ -21,7 +21,7 @@ An online retailer called Clothing Online Store carries a selection of clothing 
 ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
 
-## 👚 ERD
+## 👚 ERD 👒
 
 <img src="ERD4.drawio.png">
 
@@ -39,7 +39,7 @@ Go to the project directory
   cd PROJECT-III
 ```
 
-## Open Api
+## Open Api 🔥
 
 If you're interested in using our Open Api, this is an example of how to do so.
 
@@ -91,3 +91,30 @@ Several commands make use of admin features, as shown below.
 | POST | /admins | - | YES | Create product |
 | GET | /admins | - | YES | Displaying recently posted products |
 | GET | /admins/history | - | YES | show the order history for existing orders |
+
+## Authors 👑
+
+- Cindy Sinthia Imanisa Febryana
+       
+  Reach me:
+
+  [![GitHub](https://img.shields.io/badge/Cindy05-shintia-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Cindy05-shintia)
+
+- Vanilia Cahya Nugroho
+       
+  Reach me:
+
+  [![GitHub](https://img.shields.io/badge/vaniliacahya-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/vaniliacahya)
+  
+  - Faqih Assyfa Poedjiono
+       
+  Reach me:
+
+  [![GitHub](https://img.shields.io/badge/faqihassyfa-%23121011.svg?style=for-the-badge&logo=github&logoColor=red)](https://github.com/faqihassyfa)
+
+       
+ <p align="right">(<a href="#top">back to top</a>)</p>
+<h3>
+<p align="center">:copyright: 2022 </p>
+</h3>
+<!-- end -->
