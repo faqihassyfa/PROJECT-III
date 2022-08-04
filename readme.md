@@ -86,8 +86,8 @@ Several commands make use of admin features, as shown below.
   
 | Feature Admin | Endpoint | Param | JWT Token | Function |
 | --- | --- | --- | --- | --- |
-| PUT | /admins/:productid  | ID Product | YES | create new restaurant |
-| DELETE| /admins/:productid | ID Product | YES | edit the restaurant information |
+| PUT | /admins/:productid  | ID Product | YES | Update Product data |
+| DELETE| /admins/:productid | ID Product | YES | Delete Product |
 | POST | /admins | - | YES | Create product |
 | GET | /admins | - | YES | Displaying recently posted products |
 | GET | /admins/history | - | YES | show the order history for existing orders |
