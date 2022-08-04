@@ -92,6 +92,8 @@ Several commands make use of admin features, as shown below.
 | GET | /admins | - | YES | Displaying recently posted products |
 | GET | /admins/history | - | YES | show the order history for existing orders |
 
+</details>   
+
 ## Authors 👑
 
 - Cindy Sinthia Imanisa Febryana
