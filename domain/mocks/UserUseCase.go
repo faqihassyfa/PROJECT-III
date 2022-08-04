@@ -43,6 +43,29 @@ func (_m *UserUseCase) AccountUser(userid int) (domain.User, []domain.OrderHisto
 	return r0, r1, r2
 }
 
+// AllProduct provides a mock function with given fields:
+func (_m *UserUseCase) AllProduct() ([]domain.Product, int) {
+	ret := _m.Called()
+
+	var r0 []domain.Product
+	if rf, ok := ret.Get(0).(func() []domain.Product); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]domain.Product)
+		}
+	}
+
+	var r1 int
+	if rf, ok := ret.Get(1).(func() int); ok {
+		r1 = rf()
+	} else {
+		r1 = ret.Get(1).(int)
+	}
+
+	return r0, r1
+}
+
 // DeleteUser provides a mock function with given fields: userID
 func (_m *UserUseCase) DeleteUser(userID int) int {
 	ret := _m.Called(userID)

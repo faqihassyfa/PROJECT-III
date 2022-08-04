@@ -2,6 +2,7 @@ package data
 
 import (
 	"PROJECT-III/domain"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -15,6 +16,12 @@ type Product struct {
 	Image   string `json:"image" form:"image"`
 }
 
+type AdminOrderHistory struct {
+	ID         int
+	CreatedAt  time.Time
+	Totalprice int
+}
+
 func (u *Product) ToModel() domain.Product {
 	return domain.Product{
 		ID:        int(u.ID),
@@ -26,12 +33,29 @@ func (u *Product) ToModel() domain.Product {
 		CreatedAt: u.CreatedAt,
 	}
 }
+func (p *AdminOrderHistory) ToAdminOrderHistory() domain.AdminOrderHistory {
+	return domain.AdminOrderHistory{
+		ID:         p.ID,
+		CreatedAt:  p.CreatedAt,
+		Totalprice: p.Totalprice,
+	}
+}
 
 func ParseToArr(arr []Product) []domain.Product {
 	var res []domain.Product
 
 	for _, val := range arr {
 		res = append(res, val.ToModel())
+	}
+
+	return res
+}
+
+func ParseAdminOrderHistoryToArr(arr []AdminOrderHistory) []domain.AdminOrderHistory {
+	var res []domain.AdminOrderHistory
+
+	for _, val := range arr {
+		res = append(res, val.ToAdminOrderHistory())
 	}
 
 	return res

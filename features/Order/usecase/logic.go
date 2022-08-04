@@ -16,6 +16,7 @@ type orderUseCase struct {
 func New(od domain.OrderData, v *validator.Validate) domain.OrderUseCase {
 	return &orderUseCase{
 		orderData: od,
+		validate:  v,
 	}
 }
 

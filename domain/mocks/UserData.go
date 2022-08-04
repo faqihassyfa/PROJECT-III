@@ -27,6 +27,22 @@ func (_m *UserData) AccountUserData(userid int) domain.User {
 	return r0
 }
 
+// AllProductData provides a mock function with given fields:
+func (_m *UserData) AllProductData() []domain.Product {
+	ret := _m.Called()
+
+	var r0 []domain.Product
+	if rf, ok := ret.Get(0).(func() []domain.Product); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]domain.Product)
+		}
+	}
+
+	return r0
+}
+
 // CheckDuplicate provides a mock function with given fields: newuser
 func (_m *UserData) CheckDuplicate(newuser domain.User) bool {
 	ret := _m.Called(newuser)

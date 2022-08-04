@@ -2,6 +2,7 @@ package data
 
 import (
 	"PROJECT-III/domain"
+	dataorder "PROJECT-III/features/Order/data"
 	"log"
 
 	"gorm.io/gorm"
@@ -113,12 +114,51 @@ func (ad *adminData) CreateProductData(newProduct domain.Product) domain.Product
 	return products.ToModel()
 }
 
-func (ad *adminData) ReadAllProductData() []domain.Product {
+func (ad *adminData) ReadAllProductData(adminid int) []domain.Product {
+	var detailuser domain.User
 	var products []Product
-	err := ad.db.Find(&products).Error
-	if err != nil {
-		log.Println("cannot read data", err.Error())
-		return nil
+	cekadmin := ad.db.Table("users").Where("ID = ?", adminid).First(&detailuser)
+
+	if cekadmin.Error != nil {
+		log.Println("cannot read data", cekadmin.Error.Error())
+		return []domain.Product{}
+	}
+
+	if detailuser.Role != "admin" {
+		log.Println("not admin!", cekadmin.Error.Error())
+		return []domain.Product{}
+	}
+	err := ad.db.Find(&products)
+	if err.Error != nil {
+		log.Println("cannot read data", err.Error.Error())
+		return []domain.Product{}
+	}
+	if err.RowsAffected == 0 {
+		log.Println("data not found")
+		return []domain.Product{}
 	}
 	return ParseToArr(products)
+}
+
+func (ad *adminData) HistoryAdminData(adminid int) []domain.AdminOrderHistory {
+	var detailuser domain.User
+	var orders []AdminOrderHistory
+	cekadmin := ad.db.Table("users").Where("ID = ?", adminid).First(&detailuser)
+
+	if cekadmin.Error != nil {
+		log.Println("cannot read data", cekadmin.Error.Error())
+		return []domain.AdminOrderHistory{}
+	}
+
+	if detailuser.Role != "admin" {
+		log.Println("not admin!", cekadmin.Error.Error())
+		return []domain.AdminOrderHistory{}
+	}
+	err := ad.db.Model(&dataorder.Order{}).Select("orders.totalprice, orders.created_at, orders.id").Where("userid = ?", adminid).Find(&orders).Error
+	if err != nil {
+		log.Println("cannot read data", err.Error())
+		return []domain.AdminOrderHistory{}
+	}
+
+	return ParseAdminOrderHistoryToArr(orders)
 }
