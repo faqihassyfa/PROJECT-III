@@ -2,6 +2,7 @@ package data
 
 import (
 	"PROJECT-III/domain"
+	dataorder "PROJECT-III/features/Order/data"
 	"log"
 
 	"gorm.io/gorm"
@@ -137,4 +138,27 @@ func (ad *adminData) ReadAllProductData(adminid int) []domain.Product {
 		return []domain.Product{}
 	}
 	return ParseToArr(products)
+}
+
+func (ad *adminData) HistoryAdminData(adminid int) []domain.AdminOrderHistory {
+	var detailuser domain.User
+	var orders []AdminOrderHistory
+	cekadmin := ad.db.Table("users").Where("ID = ?", adminid).First(&detailuser)
+
+	if cekadmin.Error != nil {
+		log.Println("cannot read data", cekadmin.Error.Error())
+		return []domain.AdminOrderHistory{}
+	}
+
+	if detailuser.Role != "admin" {
+		log.Println("not admin!", cekadmin.Error.Error())
+		return []domain.AdminOrderHistory{}
+	}
+	err := ad.db.Model(&dataorder.Order{}).Select("orders.totalprice, orders.created_at, orders.id").Where("userid = ?", adminid).Find(&orders).Error
+	if err != nil {
+		log.Println("cannot read data", err.Error())
+		return []domain.AdminOrderHistory{}
+	}
+
+	return ParseAdminOrderHistoryToArr(orders)
 }

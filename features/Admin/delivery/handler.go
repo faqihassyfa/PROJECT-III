@@ -218,3 +218,39 @@ func (ah *adminHandler) ReadAll() echo.HandlerFunc {
 		return c.JSON(http.StatusOK, arrmap)
 	}
 }
+
+func (ah *adminHandler) ReadHistory() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		id := common.ExtractData(c)
+		data, status := ah.adminUseCase.HistoryAdmin(id)
+
+		var arrmap []map[string]interface{}
+		var statuscode = map[string]interface{}{}
+		if status == 404 {
+			return c.JSON(http.StatusNotFound, map[string]interface{}{
+				"code":    status,
+				"message": "data not found",
+			})
+		}
+		if status == 500 {
+			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+				"code":    status,
+				"message": "there is an error in internal server",
+			})
+		}
+		for i := 0; i < len(data); i++ {
+			var res = map[string]interface{}{}
+
+			res["orderid"] = data[i].ID
+			res["total"] = data[i].Totalprice
+			res["created_at"] = data[i].CreatedAt
+
+			arrmap = append(arrmap, res)
+		}
+		statuscode["code"] = status
+		statuscode["messages"] = "success get all product"
+		arrmap = append(arrmap, statuscode)
+
+		return c.JSON(http.StatusOK, arrmap)
+	}
+}

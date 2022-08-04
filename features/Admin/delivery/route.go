@@ -25,4 +25,5 @@ func RouteProducts(e *echo.Echo, ah domain.AdminHandler) {
 	product.DELETE("/:productid", ah.Delete(), middleware.JWTWithConfig(middlewares.UseJWT([]byte(config.SECRET))))
 	product.POST("", ah.Create(), middleware.JWTWithConfig(middlewares.UseJWT([]byte(config.SECRET))))
 	product.GET("", ah.ReadAll(), middleware.JWTWithConfig(middlewares.UseJWT([]byte(config.SECRET))))
+	product.GET("/history", ah.ReadHistory(), middleware.JWTWithConfig(middlewares.UseJWT([]byte(config.SECRET))))
 }
