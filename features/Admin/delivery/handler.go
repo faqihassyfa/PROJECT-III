@@ -184,7 +184,8 @@ func (ah *adminHandler) Create() echo.HandlerFunc {
 
 func (ah *adminHandler) ReadAll() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		data, status := ah.adminUseCase.ReadAllProduct()
+		id := common.ExtractData(c)
+		data, status := ah.adminUseCase.ReadAllProduct(id)
 
 		var arrmap []map[string]interface{}
 		var statuscode = map[string]interface{}{}
