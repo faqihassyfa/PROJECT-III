@@ -1,14 +1,27 @@
 package domain
 
-import "github.com/labstack/echo"
+import (
+	"time"
+
+	"github.com/labstack/echo/v4"
+)
 
 type Order struct {
 	ID            int
 	Userid        int
 	PaymentMethod string
-	TotalQty      int
+	Qty           int
 	Totalprice    int
 	Status        int
+	Productid     int
+	CreatedAt     time.Time
+}
+
+type ProductOrder struct {
+	ID    int
+	Name  string
+	Price int
+	Qty   int
 }
 
 type OrderHandler interface {
