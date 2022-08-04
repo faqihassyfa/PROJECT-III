@@ -41,13 +41,36 @@ func (_m *AdminUseCase) DeleteProduct(productid int, adminid int) int {
 	return r0
 }
 
-// ReadAllProduct provides a mock function with given fields:
-func (_m *AdminUseCase) ReadAllProduct() ([]domain.Product, int) {
-	ret := _m.Called()
+// HistoryAdmin provides a mock function with given fields: adminid
+func (_m *AdminUseCase) HistoryAdmin(adminid int) ([]domain.AdminOrderHistory, int) {
+	ret := _m.Called(adminid)
+
+	var r0 []domain.AdminOrderHistory
+	if rf, ok := ret.Get(0).(func(int) []domain.AdminOrderHistory); ok {
+		r0 = rf(adminid)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]domain.AdminOrderHistory)
+		}
+	}
+
+	var r1 int
+	if rf, ok := ret.Get(1).(func(int) int); ok {
+		r1 = rf(adminid)
+	} else {
+		r1 = ret.Get(1).(int)
+	}
+
+	return r0, r1
+}
+
+// ReadAllProduct provides a mock function with given fields: adminid
+func (_m *AdminUseCase) ReadAllProduct(adminid int) ([]domain.Product, int) {
+	ret := _m.Called(adminid)
 
 	var r0 []domain.Product
-	if rf, ok := ret.Get(0).(func() []domain.Product); ok {
-		r0 = rf()
+	if rf, ok := ret.Get(0).(func(int) []domain.Product); ok {
+		r0 = rf(adminid)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]domain.Product)
@@ -55,8 +78,8 @@ func (_m *AdminUseCase) ReadAllProduct() ([]domain.Product, int) {
 	}
 
 	var r1 int
-	if rf, ok := ret.Get(1).(func() int); ok {
-		r1 = rf()
+	if rf, ok := ret.Get(1).(func(int) int); ok {
+		r1 = rf(adminid)
 	} else {
 		r1 = ret.Get(1).(int)
 	}

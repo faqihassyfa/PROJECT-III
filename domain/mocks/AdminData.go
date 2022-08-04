@@ -41,13 +41,29 @@ func (_m *AdminData) DeleteProductData(productid int, adminid int) bool {
 	return r0
 }
 
-// ReadAllProductData provides a mock function with given fields:
-func (_m *AdminData) ReadAllProductData() []domain.Product {
-	ret := _m.Called()
+// HistoryAdminData provides a mock function with given fields: adminid
+func (_m *AdminData) HistoryAdminData(adminid int) []domain.AdminOrderHistory {
+	ret := _m.Called(adminid)
+
+	var r0 []domain.AdminOrderHistory
+	if rf, ok := ret.Get(0).(func(int) []domain.AdminOrderHistory); ok {
+		r0 = rf(adminid)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]domain.AdminOrderHistory)
+		}
+	}
+
+	return r0
+}
+
+// ReadAllProductData provides a mock function with given fields: adminid
+func (_m *AdminData) ReadAllProductData(adminid int) []domain.Product {
+	ret := _m.Called(adminid)
 
 	var r0 []domain.Product
-	if rf, ok := ret.Get(0).(func() []domain.Product); ok {
-		r0 = rf()
+	if rf, ok := ret.Get(0).(func(int) []domain.Product); ok {
+		r0 = rf(adminid)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]domain.Product)

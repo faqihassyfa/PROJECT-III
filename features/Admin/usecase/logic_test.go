@@ -108,9 +108,9 @@ func TestReadAllProduct(t *testing.T) {
 	returnData := []domain.Product{{ID: 1, Adminid: 1, Name: "Tshirt", Price: 75000, Stock: 5, Image: "image.jpg"}}
 
 	t.Run("Success Read Product", func(t *testing.T) {
-		repo.On("ReadAllProductData").Return(returnData).Once()
+		repo.On("ReadAllProductData", mock.Anything).Return(returnData).Once()
 		useCase := New(repo, validator.New())
-		res, status := useCase.ReadAllProduct()
+		res, status := useCase.ReadAllProduct(1)
 
 		assert.Equal(t, 200, status)
 		assert.GreaterOrEqual(t, len(res), 1)
@@ -118,9 +118,9 @@ func TestReadAllProduct(t *testing.T) {
 		repo.AssertExpectations(t)
 	})
 	t.Run("Data Not Found", func(t *testing.T) {
-		repo.On("ReadAllProductData").Return([]domain.Product{}).Once()
+		repo.On("ReadAllProductData", mock.Anything).Return([]domain.Product{}).Once()
 		useCase := New(repo, validator.New())
-		res, status := useCase.ReadAllProduct()
+		res, status := useCase.ReadAllProduct(0)
 
 		assert.Equal(t, 404, status)
 		assert.Equal(t, len(res), 0)
