@@ -94,6 +94,26 @@ Several commands make use of admin features, as shown below.
 
 </details>   
 
+<div>
+      <details>
+<summary>🛒 Order</summary>
+  
+  <!---
+  | Command | Description |
+| --- | --- |
+  --->
+  
+Several commands make use of Order features, as shown below.
+ 
+<div>
+  
+| Feature Order | Endpoint | Param | JWT Token | Function |
+| --- | --- | --- | --- | --- |
+| GET | /orders  | - | YES | Create Order data |
+
+
+</details>   
+
 ## Authors 👑
 
 - Cindy Sinthia Imanisa Febryana
