@@ -37,7 +37,7 @@ PROJECT-III/features/User/usecase/logic.go:44.20,47.3 2 0
 PROJECT-III/features/User/usecase/logic.go:53.20,56.3 2 1
 PROJECT-III/features/User/usecase/logic.go:61.53,64.13 2 1
 PROJECT-III/features/User/usecase/logic.go:68.2,68.12 1 1
-PROJECT-III/features/User/usecase/logic.go:64.13,67.3 2 0
+PROJECT-III/features/User/usecase/logic.go:64.13,67.3 2 1
 PROJECT-III/features/User/usecase/logic.go:71.79,74.19 2 1
 PROJECT-III/features/User/usecase/logic.go:78.2,82.16 3 1
 PROJECT-III/features/User/usecase/logic.go:87.2,87.19 1 0

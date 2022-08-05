@@ -155,11 +155,11 @@ func TestDeleteUser(t *testing.T) {
 		repo.AssertExpectations(t)
 	})
 	t.Run("Data Not Found", func(t *testing.T) {
-		repo.On("DeleteData", mock.Anything).Return(true).Once()
+		repo.On("DeleteData", mock.Anything).Return(false).Once()
 		useCase := New(repo, validator.New())
 		delete := useCase.DeleteUser(0)
 
-		assert.NotEqual(t, 404, delete)
+		assert.Equal(t, 404, delete)
 		repo.AssertExpectations(t)
 	})
 }
