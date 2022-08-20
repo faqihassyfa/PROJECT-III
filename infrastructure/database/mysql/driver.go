@@ -2,6 +2,9 @@ package mysql
 
 import (
 	"PROJECT-III/config"
+	productdata "PROJECT-III/features/Admin/data"
+	orderdata "PROJECT-III/features/Order/data"
+	userdata "PROJECT-III/features/User/data"
 	"fmt"
 	"log"
 
@@ -22,4 +25,10 @@ func InitDB(cfg *config.AppConfig) *gorm.DB {
 	}
 
 	return db
+}
+
+func MigrateData(db *gorm.DB) {
+	db.AutoMigrate(userdata.User{})
+	db.AutoMigrate(orderdata.Order{})
+	db.AutoMigrate(productdata.Product{})
 }

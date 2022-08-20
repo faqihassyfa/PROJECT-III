@@ -1,7 +1,9 @@
 package delivery
 
 import (
+	"PROJECT-III/config"
 	"PROJECT-III/domain"
+	"PROJECT-III/features/User/delivery/middlewares"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -22,7 +24,13 @@ func RouteUser(e *echo.Echo, uh domain.UserHandler) {
 		Format: "method=${method}, uri=${uri}, status=${status}\n",
 	}))
 
+	login := e.Group("/login")
 	user := e.Group("/users")
 	// user.GET("", uh.Account(), middleware.JWTWithConfig(middlewares.UseJWT([]byte(config.SECRET))))
-	user.GET("", uh.Account())
+	user.PUT("", uh.Update(), middleware.JWTWithConfig(middlewares.UseJWT([]byte(config.SECRET))))
+	user.POST("", uh.Register())
+	user.DELETE("", uh.Delete(), middleware.JWTWithConfig(middlewares.UseJWT([]byte(config.SECRET))))
+	login.POST("", uh.Login())
+
+	e.GET("/products", uh.Product())
 }

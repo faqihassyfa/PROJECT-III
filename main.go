@@ -4,21 +4,21 @@ import (
 	"PROJECT-III/config"
 	"PROJECT-III/factory"
 	"PROJECT-III/infrastructure/database/mysql"
-	"PROJECT-III/migration"
 	"fmt"
 
 	"github.com/labstack/echo/v4"
-	//"github.com/labstack/echo/v4/middleware"
+	"github.com/labstack/echo/v4/middleware"
+	"github.com/midtrans/midtrans-go/snap"
 )
 
 func main() {
 	cfg := config.GetConfig()
 	db := mysql.InitDB(cfg)
-	migration.InitMigrate(db)
+	mysql.MigrateData(db)
 	e := echo.New()
-	// e.Use(middleware.CORS())
+	e.Use(middleware.CORS())
 
-	factory.InitFactory(e, db)
+	factory.InitFactory(e, db, *cfg, snap.Client{})
 
 	fmt.Println("application is running ....")
 	dsn := fmt.Sprintf(":%d", config.SERVERPORT)
