@@ -14,6 +14,7 @@ type Product struct {
 	Stock     int
 	Image     string
 	CreatedAt time.Time
+	Orders    []Order
 }
 
 type AdminOrderHistory struct {
@@ -27,7 +28,7 @@ type AdminHandler interface {
 	Delete() echo.HandlerFunc
 	Create() echo.HandlerFunc
 	ReadAll() echo.HandlerFunc
-	ReadHistory() echo.HandlerFunc
+	// ReadHistory() echo.HandlerFunc
 }
 
 type AdminUseCase interface {
@@ -35,7 +36,7 @@ type AdminUseCase interface {
 	DeleteProduct(productid, adminid int) int
 	CreateProduct(newProduct Product, adminid int) int
 	ReadAllProduct(adminid int) ([]Product, int)
-	HistoryAdmin(adminid int) ([]AdminOrderHistory, int)
+	// HistoryAdmin(adminid int) ([]AdminOrderHistory, int)
 }
 
 type AdminData interface {
@@ -43,5 +44,5 @@ type AdminData interface {
 	DeleteProductData(productid, adminid int) bool
 	CreateProductData(newProduct Product) Product
 	ReadAllProductData(adminid int) []Product
-	HistoryAdminData(adminid int) []AdminOrderHistory
+	// HistoryAdminData(adminid int) []AdminOrderHistory
 }

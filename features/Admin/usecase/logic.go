@@ -78,11 +78,11 @@ func (auc *adminUsecase) ReadAllProduct(adminid int) ([]domain.Product, int) {
 	return products, 200
 }
 
-func (auc *adminUsecase) HistoryAdmin(adminid int) ([]domain.AdminOrderHistory, int) {
-	history := auc.adminData.HistoryAdminData(adminid)
-	if len(history) == 0 {
-		log.Println("data not found")
-		return nil, 404
-	}
-	return history, 200
-}
+// func (auc *adminUsecase) HistoryAdmin(adminid int) ([]domain.AdminOrderHistory, int) {
+// 	history := auc.adminData.HistoryAdminData(adminid)
+// 	if len(history) == 0 {
+// 		log.Println("data not found")
+// 		return nil, 404
+// 	}
+// 	return history, 200
+// }

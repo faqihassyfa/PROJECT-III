@@ -24,18 +24,28 @@ func New(od domain.OrderData, ouc domain.OrderUseCase) domain.OrderHandler {
 func (oh *orderHandler) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var neworder OrderFormat
-		id, _ := common.ExtractData(c)
 		bind := c.Bind(&neworder)
 
 		if bind != nil {
 			log.Println("cant bind")
 			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-				"code":    500,
-				"message": "There is an error in internal server",
+				"code":    400,
+				"message": "wrong input",
 			})
 		}
 
-		status := oh.orderUseCase.CreateOrder(neworder.ToModel(), id)
+		id, role := common.ExtractData(c)
+
+		if role != "user" {
+			log.Println("not user")
+			return c.JSON(http.StatusUnauthorized, map[string]interface{}{
+				"code":    401,
+				"message": "not user",
+			})
+		}
+
+		status, url := oh.orderUseCase.CreateOrder(neworder.ToOrder(), id)
+
 		if status == 400 {
 			return c.JSON(http.StatusBadRequest, map[string]interface{}{
 				"code":    status,
@@ -46,7 +56,7 @@ func (oh *orderHandler) Create() echo.HandlerFunc {
 		if status == 404 {
 			return c.JSON(http.StatusNotFound, map[string]interface{}{
 				"code":    status,
-				"message": "Data not found",
+				"message": "not enough stock",
 			})
 		}
 
@@ -58,8 +68,9 @@ func (oh *orderHandler) Create() echo.HandlerFunc {
 		}
 
 		return c.JSON(http.StatusOK, map[string]interface{}{
-			"code":    status,
-			"message": "Order success",
+			"paymentlink": url,
+			"code":        status,
+			"message":     "Order success",
 		})
 	}
 }

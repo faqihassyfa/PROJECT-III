@@ -164,34 +164,34 @@ func TestDeleteUser(t *testing.T) {
 	})
 }
 
-func TestAccountUser(t *testing.T) {
-	repo := new(mocks.UserData)
+// func TestAccountUser(t *testing.T) {
+// 	repo := new(mocks.UserData)
 
-	returnDataUser := domain.User{ID: 1, Name: "vanili", Email: "vanili@vanili.com", Password: "123", Address: "malang", Phone: "012345", Role: "users"}
-	returnDataOrderHistory := []domain.OrderHistory{{ID: 1, Totalprice: 150000}}
+// 	returnDataUser := domain.User{ID: 1, Name: "vanili", Email: "vanili@vanili.com", Password: "123", Address: "malang", Phone: "012345", Role: "users"}
+// 	returnDataOrderHistory := []domain.OrderHistory{{ID: 1, Totalprice: 150000}}
 
-	t.Run("Success Get User", func(t *testing.T) {
-		repo.On("AccountUserData", mock.Anything).Return(returnDataUser).Once()
-		repo.On("HistoryUserData", mock.Anything).Return(returnDataOrderHistory)
-		useCase := New(repo, validator.New())
-		account, _, Order := useCase.AccountUser(1)
+// 	t.Run("Success Get User", func(t *testing.T) {
+// 		repo.On("AccountUserData", mock.Anything).Return(returnDataUser).Once()
+// 		repo.On("HistoryUserData", mock.Anything).Return(returnDataOrderHistory)
+// 		useCase := New(repo, validator.New())
+// 		account, _, Order := useCase.AccountUser(1)
 
-		assert.Equal(t, returnDataUser, account)
-		assert.Equal(t, 200, Order)
-		repo.AssertExpectations(t)
-	})
-	t.Run("Data not Found", func(t *testing.T) {
-		returnDataUser.ID = 0
-		repo.On("AccountUserData", mock.Anything).Return(returnDataUser).Once()
-		repo.On("HistoryUserData", mock.Anything).Return(returnDataOrderHistory)
-		useCase := New(repo, validator.New())
-		account, _, order := useCase.AccountUser(1)
+// 		assert.Equal(t, returnDataUser, account)
+// 		assert.Equal(t, 200, Order)
+// 		repo.AssertExpectations(t)
+// 	})
+// 	t.Run("Data not Found", func(t *testing.T) {
+// 		returnDataUser.ID = 0
+// 		repo.On("AccountUserData", mock.Anything).Return(returnDataUser).Once()
+// 		repo.On("HistoryUserData", mock.Anything).Return(returnDataOrderHistory)
+// 		useCase := New(repo, validator.New())
+// 		account, _, order := useCase.AccountUser(1)
 
-		assert.Equal(t, 0, account.ID)
-		assert.Equal(t, 404, order)
-		repo.AssertExpectations(t)
-	})
-}
+// 		assert.Equal(t, 0, account.ID)
+// 		assert.Equal(t, 404, order)
+// 		repo.AssertExpectations(t)
+// 	})
+// }
 
 func TestAllProduct(t *testing.T) {
 	repo := new(mocks.UserData)

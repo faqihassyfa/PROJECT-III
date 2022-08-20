@@ -87,16 +87,16 @@ func (uuc *userUserCase) LoginUser(userdata domain.User) (domain.User, error) {
 	return login, nil
 }
 
-func (uuc *userUserCase) AccountUser(userid int) (domain.User, []domain.OrderHistory, int) {
-	myaccount := uuc.userData.AccountUserData(userid)
-	myorder := uuc.userData.HistoryUserData(userid)
+// func (uuc *userUserCase) AccountUser(userid int) (domain.User, []domain.OrderHistory, int) {
+// 	myaccount := uuc.userData.AccountUserData(userid)
+// 	myorder := uuc.userData.HistoryUserData(userid)
 
-	if myaccount.ID == 0 {
-		log.Println("Data not found")
-		return domain.User{}, nil, 404
-	}
-	return myaccount, myorder, 200
-}
+// 	if myaccount.ID == 0 {
+// 		log.Println("Data not found")
+// 		return domain.User{}, nil, 404
+// 	}
+// 	return myaccount, myorder, 200
+// }
 
 func (uuc *userUserCase) UpdateUser(updatedData domain.User, userid int) int {
 	var user = data.FromModel(updatedData)

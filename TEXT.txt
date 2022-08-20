@@ -18,3 +18,15 @@ export DBhost="redb.cp9rftl8u3wq.ap-southeast-1.rds.amazonaws.com"
 export DBport="3306"
 export SECRET="h1d3n"
 export SERVERPORT=8080
+
+export DBname="crud_go4"
+export DBusername="root"
+export DBpassword=""
+export DBhost="localhost"
+export DBport="3306"
+export SECRET="h1d3n"
+export SERVERPORT=8080
+export S3_KEY=AKIATLFFQ57W2XPPMEOF
+export S3_SECRET=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
+export S3_REGION=ap-southeast-1
+

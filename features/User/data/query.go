@@ -2,8 +2,6 @@ package data
 
 import (
 	"PROJECT-III/domain"
-	"PROJECT-III/features/Order/data"
-	"fmt"
 	"log"
 
 	"gorm.io/gorm"
@@ -87,15 +85,15 @@ func (ud *userData) AccountUserData(userid int) domain.User {
 
 }
 
-func (ud *userData) HistoryUserData(userid int) []domain.OrderHistory {
-	var tmp []OrderHistory
-	err := ud.db.Model(&data.Order{}).Select("orders.totalprice, orders.created_at, orders.id").Where("userid = ?", userid).Find(&tmp).Error
-	if err != nil {
-		log.Println("There is problem with data", err.Error())
-	}
-	fmt.Println("history", tmp)
-	return ParseOrderHistoryToArr(tmp)
-}
+// func (ud *userData) HistoryUserData(userid int) []domain.OrderHistory {
+// 	var tmp []OrderHistory
+// 	err := ud.db.Model(&data.Order{}).Select("orders.totalprice, orders.created_at, orders.id").Where("userid = ?", userid).Find(&tmp).Error
+// 	if err != nil {
+// 		log.Println("There is problem with data", err.Error())
+// 	}
+// 	fmt.Println("history", tmp)
+// 	return ParseOrderHistoryToArr(tmp)
+// }
 
 func (ud *userData) UpdateUserData(updatedData domain.User, userid int) domain.User {
 	var user = FromModel(updatedData)

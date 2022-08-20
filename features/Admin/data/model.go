@@ -14,6 +14,7 @@ type Product struct {
 	Price   int    `json:"price" form:"price" validate:"required"`
 	Stock   int    `json:"stock" form:"stock" validate:"required"`
 	Image   string `json:"image" form:"image"`
+	// Orders  []data.Orders `gorm:"foreignKey:Productid"`
 }
 
 type AdminOrderHistory struct {

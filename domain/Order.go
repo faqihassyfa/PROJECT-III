@@ -7,21 +7,16 @@ import (
 )
 
 type Order struct {
-	ID            int
-	Userid        int
-	PaymentMethod string
-	Qty           int
-	Totalprice    int
-	Status        int
-	Productid     int
-	CreatedAt     time.Time
-}
-
-type ProductOrder struct {
-	ID    int
-	Name  string
-	Price int
-	Qty   int
+	ID         int
+	OrderID    string
+	UserID     int
+	ProductID  int
+	Price      int
+	Qty        int
+	Totalprice int
+	Status     int
+	Payment    string
+	CreatedAt  time.Time
 }
 
 type OrderHandler interface {
@@ -29,9 +24,16 @@ type OrderHandler interface {
 }
 
 type OrderUseCase interface {
-	CreateOrder(neworder Order, userid int) int
+	CreateOrder(neworder Order, userid int) (int, string)
+	ConfirmStatus(orderID int) int
+	CancelStatus(orderID int) int
 }
 
 type OrderData interface {
-	CreateOrderData(neworder Order) Order
+	InsertOrderData(neworder Order) Order
+	TotalPriceOrder(neworder Order) (int, int)
+	CekStock(neworder Order) bool
+	ReturnStock(neworder Order)
+	ConfirmStatusData(idOrder int) (row int)
+	CancelStatusData(orderID int) (row int)
 }

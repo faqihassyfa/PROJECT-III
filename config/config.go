@@ -10,15 +10,16 @@ import (
 )
 
 type AppConfig struct {
-	Driver   string
-	Name     string
-	Address  string
-	Port     int
-	Username string
-	Password string
-	Keys3    string
-	Secrets3 string
-	Regions3 string
+	Driver    string
+	Name      string
+	Address   string
+	Port      int
+	Username  string
+	Password  string
+	Keys3     string
+	Secrets3  string
+	Regions3  string
+	Midserver string
 }
 
 var lock = &sync.Mutex{}
@@ -66,6 +67,7 @@ func initConfig() *AppConfig {
 	defaultConfig.Keys3 = os.Getenv("S3_KEY")
 	defaultConfig.Secrets3 = os.Getenv("S3_SECRET")
 	defaultConfig.Regions3 = os.Getenv("S3_REGION")
+	defaultConfig.Midserver = os.Getenv("Midtrans_server")
 
 	return &defaultConfig
 }
