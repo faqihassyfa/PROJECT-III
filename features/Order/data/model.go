@@ -2,33 +2,51 @@ package data
 
 import (
 	"PROJECT-III/domain"
-	"time"
 
 	"gorm.io/gorm"
 )
 
 type Order struct {
 	gorm.Model
-	Userid        int
-	PaymentMethod string
-	Qty           int
-	Totalprice    int
-	Status        int
-	Productid     int
-	CreatedAt     time.Time
+	OrderID    string
+	UserID     int
+	ProductID  int
+	Price      int
+	Qty        int
+	Totalprice int
+	Status     int
+	Payment    string
 }
 
 func (o *Order) ToModel() domain.Order {
 	return domain.Order{
-		ID:            int(o.ID),
-		Userid:        o.Userid,
-		PaymentMethod: o.PaymentMethod,
-		Qty:           o.Qty,
-		Totalprice:    o.Totalprice,
-		Status:        o.Status,
-		Productid:     o.Productid,
-		CreatedAt:     o.CreatedAt,
+		ID:         int(o.ID),
+		OrderID:    o.OrderID,
+		UserID:     o.UserID,
+		ProductID:  o.ProductID,
+		Price:      o.Price,
+		Qty:        o.Qty,
+		Totalprice: o.Totalprice,
+		Status:     o.Status,
+		Payment:    o.Payment,
+		CreatedAt:  o.CreatedAt,
 	}
+}
+
+func FromModel(data domain.Order) Order {
+	var res Order
+	res.ID = uint(data.ID)
+	res.OrderID = data.OrderID
+	res.UserID = data.UserID
+	res.ProductID = data.ProductID
+	res.Price = data.Price
+	res.Qty = data.Qty
+	res.Totalprice = data.Totalprice
+	res.Status = data.Status
+	res.Payment = data.Payment
+	res.CreatedAt = data.CreatedAt
+
+	return res
 }
 
 func ParseToArr(arr []Order) []domain.Order {
@@ -37,20 +55,6 @@ func ParseToArr(arr []Order) []domain.Order {
 	for _, val := range arr {
 		res = append(res, val.ToModel())
 	}
-
-	return res
-}
-
-func FromModel(data domain.Order) Order {
-	var res Order
-	res.ID = uint(data.ID)
-	res.Userid = data.Userid
-	res.PaymentMethod = data.PaymentMethod
-	res.Qty = data.Qty
-	res.Totalprice = data.Totalprice
-	res.Status = data.Status
-	res.Productid = data.Productid
-	res.CreatedAt = data.CreatedAt
 
 	return res
 }

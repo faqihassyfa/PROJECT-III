@@ -21,52 +21,52 @@ func New(uuc domain.UserUseCase, ud domain.UserData) domain.UserHandler {
 	}
 }
 
-func (uh *userHandler) Account() echo.HandlerFunc {
-	return func(c echo.Context) error {
-		id, _ := common.ExtractData(c)
-		var arrmap []map[string]interface{}
-		var arrmap2 []map[string]interface{}
+// func (uh *userHandler) Account() echo.HandlerFunc {
+// 	return func(c echo.Context) error {
+// 		id, _ := common.ExtractData(c)
+// 		var arrmap []map[string]interface{}
+// 		var arrmap2 []map[string]interface{}
 
-		myaccount, myorder, status := uh.userUserCase.AccountUser(id)
+// 		myaccount, myorder, status := uh.userUserCase.AccountUser(id)
 
-		if status == 404 {
-			return c.JSON(http.StatusNotFound, map[string]interface{}{
-				"code":    status,
-				"message": "data not found",
-			})
-		}
+// 		if status == 404 {
+// 			return c.JSON(http.StatusNotFound, map[string]interface{}{
+// 				"code":    status,
+// 				"message": "data not found",
+// 			})
+// 		}
 
-		if status == 500 {
-			return c.JSON(http.StatusNotFound, map[string]interface{}{
-				"code":    status,
-				"message": "there is an error in internal server",
-			})
-		}
+// 		if status == 500 {
+// 			return c.JSON(http.StatusNotFound, map[string]interface{}{
+// 				"code":    status,
+// 				"message": "there is an error in internal server",
+// 			})
+// 		}
 
-		var res = map[string]interface{}{}
-		res["name"] = myaccount.Name
-		res["email"] = myaccount.Email
-		res["address"] = myaccount.Address
-		res["phone"] = myaccount.Phone
+// 		var res = map[string]interface{}{}
+// 		res["name"] = myaccount.Name
+// 		res["email"] = myaccount.Email
+// 		res["address"] = myaccount.Address
+// 		res["phone"] = myaccount.Phone
 
-		for i := 0; i < len(myorder); i++ {
-			var res2 = map[string]interface{}{}
-			res2["id"] = myorder[i].ID
-			res2["date"] = myorder[i].CreatedAt
-			res2["total"] = myorder[i].Totalprice
-			arrmap = append(arrmap, res2)
-		}
+// 		for i := 0; i < len(myorder); i++ {
+// 			var res2 = map[string]interface{}{}
+// 			res2["id"] = myorder[i].ID
+// 			res2["date"] = myorder[i].CreatedAt
+// 			res2["total"] = myorder[i].Totalprice
+// 			arrmap = append(arrmap, res2)
+// 		}
 
-		res["orders"] = arrmap
-		arrmap2 = append(arrmap2, res)
+// 		res["orders"] = arrmap
+// 		arrmap2 = append(arrmap2, res)
 
-		return c.JSON(http.StatusOK, map[string]interface{}{
-			"data":    arrmap2,
-			"code":    200,
-			"message": "success get my account",
-		})
-	}
-}
+// 		return c.JSON(http.StatusOK, map[string]interface{}{
+// 			"data":    arrmap2,
+// 			"code":    200,
+// 			"message": "success get my account",
+// 		})
+// 	}
+// }
 
 func (uh *userHandler) Register() echo.HandlerFunc {
 	return func(c echo.Context) error {

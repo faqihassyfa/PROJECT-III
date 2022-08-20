@@ -8,6 +8,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/midtrans/midtrans-go/snap"
 )
 
 func main() {
@@ -17,7 +18,7 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.CORS())
 
-	factory.InitFactory(e, db, *cfg)
+	factory.InitFactory(e, db, *cfg, snap.Client{})
 
 	fmt.Println("application is running ....")
 	dsn := fmt.Sprintf(":%d", config.SERVERPORT)

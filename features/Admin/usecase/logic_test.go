@@ -130,29 +130,29 @@ func TestReadAllProduct(t *testing.T) {
 	})
 }
 
-func TestHistoryAdmin(t *testing.T) {
-	repo := new(mocks.AdminData)
-	mockData := []domain.AdminOrderHistory{{ID: 1, Totalprice: 75000}}
+// func TestHistoryAdmin(t *testing.T) {
+// 	repo := new(mocks.AdminData)
+// 	mockData := []domain.AdminOrderHistory{{ID: 1, Totalprice: 75000}}
 
-	t.Run("Success Get History Order", func(t *testing.T) {
-		repo.On("HistoryAdminData", mock.Anything).Return(mockData).Once()
-		useCase := New(repo, validator.New())
-		res, status := useCase.HistoryAdmin(1)
+// 	t.Run("Success Get History Order", func(t *testing.T) {
+// 		repo.On("HistoryAdminData", mock.Anything).Return(mockData).Once()
+// 		useCase := New(repo, validator.New())
+// 		res, status := useCase.HistoryAdmin(1)
 
-		assert.Equal(t, 200, status)
-		assert.GreaterOrEqual(t, len(res), 1)
-		assert.Greater(t, res[0].ID, 0)
-		repo.AssertExpectations(t)
-	})
-	t.Run("Data Not Found", func(t *testing.T) {
-		repo.On("HistoryAdminData", mock.Anything).Return([]domain.AdminOrderHistory{}).Once()
-		useCase := New(repo, validator.New())
-		res, status := useCase.HistoryAdmin(0)
+// 		assert.Equal(t, 200, status)
+// 		assert.GreaterOrEqual(t, len(res), 1)
+// 		assert.Greater(t, res[0].ID, 0)
+// 		repo.AssertExpectations(t)
+// 	})
+// 	t.Run("Data Not Found", func(t *testing.T) {
+// 		repo.On("HistoryAdminData", mock.Anything).Return([]domain.AdminOrderHistory{}).Once()
+// 		useCase := New(repo, validator.New())
+// 		res, status := useCase.HistoryAdmin(0)
 
-		assert.Equal(t, 404, status)
-		assert.Equal(t, len(res), 0)
-		assert.Equal(t, []domain.AdminOrderHistory([]domain.AdminOrderHistory(nil)), res)
-		assert.Equal(t, []domain.AdminOrderHistory(nil), res)
-		repo.AssertExpectations(t)
-	})
-}
+// 		assert.Equal(t, 404, status)
+// 		assert.Equal(t, len(res), 0)
+// 		assert.Equal(t, []domain.AdminOrderHistory([]domain.AdminOrderHistory(nil)), res)
+// 		assert.Equal(t, []domain.AdminOrderHistory(nil), res)
+// 		repo.AssertExpectations(t)
+// 	})
+// }

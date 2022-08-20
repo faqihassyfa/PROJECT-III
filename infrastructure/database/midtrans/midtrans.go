@@ -1,34 +1,33 @@
 package midtrans
 
 import (
-	"fmt"
-	"log"
+	"os"
+	"strconv"
+	"time"
 
 	"github.com/midtrans/midtrans-go"
 	"github.com/midtrans/midtrans-go/snap"
 )
 
-func InitConnection() snap.Client {
-	var c = snap.Client{}
-	c.New("Mid-server-KHTPWGk4716D8Ix3Q8kqQTj1", midtrans.Sandbox)
+func Payment(Total int) (snapResp *snap.Response, orderid string) {
+	// 1. Initiate Snap client
+	var s = snap.Client{}
+	s.New(os.Getenv("MIDTRANS_SERVER_KEY"), midtrans.Sandbox)
+	// Use to midtrans.Production if you want Production Environment (accept real transaction).
 
-	return c
-}
+	// generate order id
+	orderIDGenerate := strconv.FormatInt(time.Now().Unix(), 10)
 
-func CreateConnection(s snap.Client, total, id int) *snap.Response {
+	// 2. Initiate Snap request param
 	req := &snap.Request{
-
 		TransactionDetails: midtrans.TransactionDetails{
-			OrderID:  fmt.Sprintf("be10-%d", id),
-			GrossAmt: int64(total),
+			OrderID:  orderIDGenerate,
+			GrossAmt: int64(Total),
 		},
 	}
 
-	apiRes, err := s.CreateTransaction(req)
+	// 3. Execute request create Snap transaction to Midtrans Snap API
+	snapResp, _ = s.CreateTransaction(req)
 
-	if err != nil {
-		log.Println("payment err: ", err)
-	}
-
-	return apiRes
+	return snapResp, orderIDGenerate
 }

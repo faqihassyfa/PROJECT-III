@@ -14,6 +14,7 @@ type User struct {
 	Address  string
 	Phone    string
 	Role     string
+	Orders   []Order
 }
 
 type OrderHistory struct {
@@ -35,7 +36,7 @@ type UserHandler interface {
 	Update() echo.HandlerFunc
 	Delete() echo.HandlerFunc
 	Login() echo.HandlerFunc
-	Account() echo.HandlerFunc
+	// Account() echo.HandlerFunc
 	Product() echo.HandlerFunc
 }
 
@@ -43,7 +44,7 @@ type UserUseCase interface {
 	RegisterUser(newuser User) int
 	DeleteUser(userID int) int
 	LoginUser(userdata User) (User, error)
-	AccountUser(userid int) (User, []OrderHistory, int)
+	// AccountUser(userid int) (User, []OrderHistory, int)
 	UpdateUser(updatedData User, userid int) int
 	AllProduct() ([]Product, int)
 }
@@ -54,7 +55,7 @@ type UserData interface {
 	LoginData(userdata User) User
 	GetPasswordData(name string) string
 	AccountUserData(userid int) User
-	HistoryUserData(userid int) []OrderHistory
+	// HistoryUserData(userid int) []OrderHistory
 	UpdateUserData(updatedData User, userid int) User
 	CheckDuplicate(newuser User) bool
 	AllProductData() []Product
